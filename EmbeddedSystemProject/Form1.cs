@@ -27,6 +27,7 @@ namespace EmbeddedSystemProject
            
             
             // Missä on määritelty user ja password?
+            //pusg
             string connectionString = "server='192.168.137.76'; database=weatherLog; user=user; password = pass;";
 
             MySqlConnection myConnection = new MySqlConnection(connectionString);
