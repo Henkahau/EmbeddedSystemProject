@@ -23,6 +23,7 @@ namespace EmbeddedSystemProject
         private void Form1_Load(object sender, EventArgs e)
         {
             //connect to MySql-database
+            //pusg
             string connectionString = "server='192.168.137.76'; database=weatherLog; user=user; password = pass;";
 
             MySqlConnection myConnection = new MySqlConnection(connectionString);
