@@ -14,7 +14,11 @@ namespace EmbeddedSystemProject
 {
     public partial class Form1 : Form
     {
+        MySqlConnection myConnection;
+        MySqlDataReader dataReader = null;
+        MySqlCommand myCommand;
         
+
         public Form1()
         {
             InitializeComponent();
@@ -22,25 +26,23 @@ namespace EmbeddedSystemProject
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            int testi = 0;
+
             //connect to MySql-database
-           
-            
-            // Missä on määritelty user ja password?
             string connectionString = "server='192.168.137.76'; database=weatherLog; user=user; password = pass;";
 
-            MySqlConnection myConnection = new MySqlConnection(connectionString);
+            myConnection = new MySqlConnection(connectionString);
 
             myConnection.Open();
 
             if (myConnection.State != ConnectionState.Open)
                 MessageBox.Show("Cannot connect to database");
+        }
 
-            MySqlDataReader dataReader = null;
+        private void button1_Click(object sender, EventArgs e)
+        {
+            myCommand = new MySqlCommand("SELECT * FROM dataLog ORDER BY id DESC LIMIT 1", myConnection);
 
-            MySqlCommand myCommand = new MySqlCommand("SELECT * FROM dataLog ORDER BY id DESC LIMIT 1", myConnection);
-
-            while(myConnection.State == ConnectionState.Open)
+            while (myConnection.State == ConnectionState.Open)
             {
                 //read data from db to console
                 dataReader = myCommand.ExecuteReader();
@@ -48,7 +50,6 @@ namespace EmbeddedSystemProject
                 Console.WriteLine(dataReader.GetFloat(2));
                 dataReader.Close();
                 Thread.Sleep(1000);
-
             }
         }
     }
