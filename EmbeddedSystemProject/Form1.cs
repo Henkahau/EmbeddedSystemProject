@@ -15,7 +15,7 @@ namespace EmbeddedSystemProject
     //testi
     public partial class Form1 : Form
     {
-        int testi = 1;
+       
         public Form1()
         {
             InitializeComponent();
@@ -23,6 +23,7 @@ namespace EmbeddedSystemProject
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            int testi = 1;
             //connect to MySql-database
             string connectionString = "server='192.168.137.76'; database=weatherLog; user=user; password = pass;";
 
