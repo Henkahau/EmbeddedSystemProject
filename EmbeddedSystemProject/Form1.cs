@@ -15,7 +15,7 @@ namespace EmbeddedSystemProject
     //testi
     public partial class Form1 : Form
     {
-        
+        int testi = 1;
         public Form1()
         {
             InitializeComponent();
