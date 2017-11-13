@@ -12,6 +12,8 @@ namespace EmbeddedSystemProject
 {
     public partial class Form1 : Form
     {
+        float dataFloat;
+        string dataString;
         public Form1()
         {
             InitializeComponent();
