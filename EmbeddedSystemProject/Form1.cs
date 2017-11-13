@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 namespace EmbeddedSystemProject
 {
+    //testi
     public partial class Form1 : Form
     {
         float dataFloat;
