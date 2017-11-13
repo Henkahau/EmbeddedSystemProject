@@ -24,6 +24,8 @@ namespace EmbeddedSystemProject
         {
             int testi = 0;
             //connect to MySql-database
+           
+            
             // Missä on määritelty user ja password?
             string connectionString = "server='192.168.137.76'; database=weatherLog; user=user; password = pass;";
 
