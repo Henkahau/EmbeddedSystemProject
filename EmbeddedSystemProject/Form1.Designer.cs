@@ -28,127 +28,155 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.textBoxData = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.aGauge2 = new System.Windows.Forms.AGauge();
-            this.aGauge1 = new System.Windows.Forms.AGauge();
+            this.aGaugeHumid = new System.Windows.Forms.AGauge();
+            this.aGaugeTemp = new System.Windows.Forms.AGauge();
+            this.labelTempTxt = new System.Windows.Forms.Label();
+            this.labelHumidTxt = new System.Windows.Forms.Label();
+            this.labelTempValue = new System.Windows.Forms.Label();
+            this.labelHumidValue = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // textBoxData
+            // aGaugeHumid
             // 
-            this.textBoxData.Location = new System.Drawing.Point(67, 105);
-            this.textBoxData.Margin = new System.Windows.Forms.Padding(4);
-            this.textBoxData.Name = "textBoxData";
-            this.textBoxData.Size = new System.Drawing.Size(243, 22);
-            this.textBoxData.TabIndex = 0;
+            this.aGaugeHumid.BaseArcColor = System.Drawing.Color.MidnightBlue;
+            this.aGaugeHumid.BaseArcRadius = 80;
+            this.aGaugeHumid.BaseArcStart = 135;
+            this.aGaugeHumid.BaseArcSweep = 270;
+            this.aGaugeHumid.BaseArcWidth = 2;
+            this.aGaugeHumid.Center = new System.Drawing.Point(100, 100);
+            this.aGaugeHumid.Location = new System.Drawing.Point(447, 44);
+            this.aGaugeHumid.Margin = new System.Windows.Forms.Padding(2);
+            this.aGaugeHumid.MaxValue = 100F;
+            this.aGaugeHumid.MinValue = 0F;
+            this.aGaugeHumid.Name = "aGaugeHumid";
+            this.aGaugeHumid.NeedleColor1 = System.Windows.Forms.AGaugeNeedleColor.Blue;
+            this.aGaugeHumid.NeedleColor2 = System.Drawing.Color.MidnightBlue;
+            this.aGaugeHumid.NeedleRadius = 80;
+            this.aGaugeHumid.NeedleType = System.Windows.Forms.NeedleType.Advance;
+            this.aGaugeHumid.NeedleWidth = 5;
+            this.aGaugeHumid.ScaleLinesInterColor = System.Drawing.Color.Black;
+            this.aGaugeHumid.ScaleLinesInterInnerRadius = 73;
+            this.aGaugeHumid.ScaleLinesInterOuterRadius = 80;
+            this.aGaugeHumid.ScaleLinesInterWidth = 1;
+            this.aGaugeHumid.ScaleLinesMajorColor = System.Drawing.Color.Black;
+            this.aGaugeHumid.ScaleLinesMajorInnerRadius = 70;
+            this.aGaugeHumid.ScaleLinesMajorOuterRadius = 80;
+            this.aGaugeHumid.ScaleLinesMajorStepValue = 20F;
+            this.aGaugeHumid.ScaleLinesMajorWidth = 2;
+            this.aGaugeHumid.ScaleLinesMinorColor = System.Drawing.Color.Gray;
+            this.aGaugeHumid.ScaleLinesMinorInnerRadius = 75;
+            this.aGaugeHumid.ScaleLinesMinorOuterRadius = 80;
+            this.aGaugeHumid.ScaleLinesMinorTicks = 9;
+            this.aGaugeHumid.ScaleLinesMinorWidth = 1;
+            this.aGaugeHumid.ScaleNumbersColor = System.Drawing.Color.Black;
+            this.aGaugeHumid.ScaleNumbersFormat = null;
+            this.aGaugeHumid.ScaleNumbersRadius = 95;
+            this.aGaugeHumid.ScaleNumbersRotation = 0;
+            this.aGaugeHumid.ScaleNumbersStartScaleLine = 0;
+            this.aGaugeHumid.ScaleNumbersStepScaleLines = 1;
+            this.aGaugeHumid.Size = new System.Drawing.Size(214, 205);
+            this.aGaugeHumid.TabIndex = 3;
+            this.aGaugeHumid.Text = "aGauge2";
+            this.aGaugeHumid.Value = 0F;
             // 
-            // button1
+            // aGaugeTemp
             // 
-            this.button1.Location = new System.Drawing.Point(67, 178);
-            this.button1.Margin = new System.Windows.Forms.Padding(4);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 28);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.aGaugeTemp.BaseArcColor = System.Drawing.Color.Brown;
+            this.aGaugeTemp.BaseArcRadius = 80;
+            this.aGaugeTemp.BaseArcStart = 135;
+            this.aGaugeTemp.BaseArcSweep = 270;
+            this.aGaugeTemp.BaseArcWidth = 2;
+            this.aGaugeTemp.Center = new System.Drawing.Point(100, 100);
+            this.aGaugeTemp.Location = new System.Drawing.Point(55, 44);
+            this.aGaugeTemp.Margin = new System.Windows.Forms.Padding(2);
+            this.aGaugeTemp.MaxValue = 70F;
+            this.aGaugeTemp.MinValue = -20F;
+            this.aGaugeTemp.Name = "aGaugeTemp";
+            this.aGaugeTemp.NeedleColor1 = System.Windows.Forms.AGaugeNeedleColor.Red;
+            this.aGaugeTemp.NeedleColor2 = System.Drawing.Color.DarkRed;
+            this.aGaugeTemp.NeedleRadius = 80;
+            this.aGaugeTemp.NeedleType = System.Windows.Forms.NeedleType.Advance;
+            this.aGaugeTemp.NeedleWidth = 5;
+            this.aGaugeTemp.ScaleLinesInterColor = System.Drawing.Color.Black;
+            this.aGaugeTemp.ScaleLinesInterInnerRadius = 73;
+            this.aGaugeTemp.ScaleLinesInterOuterRadius = 80;
+            this.aGaugeTemp.ScaleLinesInterWidth = 1;
+            this.aGaugeTemp.ScaleLinesMajorColor = System.Drawing.Color.Black;
+            this.aGaugeTemp.ScaleLinesMajorInnerRadius = 73;
+            this.aGaugeTemp.ScaleLinesMajorOuterRadius = 80;
+            this.aGaugeTemp.ScaleLinesMajorStepValue = 5F;
+            this.aGaugeTemp.ScaleLinesMajorWidth = 2;
+            this.aGaugeTemp.ScaleLinesMinorColor = System.Drawing.Color.Gray;
+            this.aGaugeTemp.ScaleLinesMinorInnerRadius = 75;
+            this.aGaugeTemp.ScaleLinesMinorOuterRadius = 80;
+            this.aGaugeTemp.ScaleLinesMinorTicks = 9;
+            this.aGaugeTemp.ScaleLinesMinorWidth = 1;
+            this.aGaugeTemp.ScaleNumbersColor = System.Drawing.Color.Black;
+            this.aGaugeTemp.ScaleNumbersFormat = null;
+            this.aGaugeTemp.ScaleNumbersRadius = 93;
+            this.aGaugeTemp.ScaleNumbersRotation = 0;
+            this.aGaugeTemp.ScaleNumbersStartScaleLine = 0;
+            this.aGaugeTemp.ScaleNumbersStepScaleLines = 1;
+            this.aGaugeTemp.Size = new System.Drawing.Size(210, 192);
+            this.aGaugeTemp.TabIndex = 2;
+            this.aGaugeTemp.Text = "aGauge1";
+            this.aGaugeTemp.Value = 0F;
             // 
-            // aGauge2
+            // labelTempTxt
             // 
-            this.aGauge2.BaseArcColor = System.Drawing.Color.Gray;
-            this.aGauge2.BaseArcRadius = 80;
-            this.aGauge2.BaseArcStart = 135;
-            this.aGauge2.BaseArcSweep = 270;
-            this.aGauge2.BaseArcWidth = 2;
-            this.aGauge2.Center = new System.Drawing.Point(100, 100);
-            this.aGauge2.Location = new System.Drawing.Point(607, 118);
-            this.aGauge2.MaxValue = 101F;
-            this.aGauge2.MinValue = 0F;
-            this.aGauge2.Name = "aGauge2";
-            this.aGauge2.NeedleColor1 = System.Windows.Forms.AGaugeNeedleColor.Gray;
-            this.aGauge2.NeedleColor2 = System.Drawing.Color.DimGray;
-            this.aGauge2.NeedleRadius = 80;
-            this.aGauge2.NeedleType = System.Windows.Forms.NeedleType.Advance;
-            this.aGauge2.NeedleWidth = 2;
-            this.aGauge2.ScaleLinesInterColor = System.Drawing.Color.Black;
-            this.aGauge2.ScaleLinesInterInnerRadius = 73;
-            this.aGauge2.ScaleLinesInterOuterRadius = 80;
-            this.aGauge2.ScaleLinesInterWidth = 1;
-            this.aGauge2.ScaleLinesMajorColor = System.Drawing.Color.Black;
-            this.aGauge2.ScaleLinesMajorInnerRadius = 70;
-            this.aGauge2.ScaleLinesMajorOuterRadius = 80;
-            this.aGauge2.ScaleLinesMajorStepValue = 10F;
-            this.aGauge2.ScaleLinesMajorWidth = 2;
-            this.aGauge2.ScaleLinesMinorColor = System.Drawing.Color.Gray;
-            this.aGauge2.ScaleLinesMinorInnerRadius = 75;
-            this.aGauge2.ScaleLinesMinorOuterRadius = 80;
-            this.aGauge2.ScaleLinesMinorTicks = 9;
-            this.aGauge2.ScaleLinesMinorWidth = 1;
-            this.aGauge2.ScaleNumbersColor = System.Drawing.Color.Black;
-            this.aGauge2.ScaleNumbersFormat = null;
-            this.aGauge2.ScaleNumbersRadius = 95;
-            this.aGauge2.ScaleNumbersRotation = 0;
-            this.aGauge2.ScaleNumbersStartScaleLine = 0;
-            this.aGauge2.ScaleNumbersStepScaleLines = 1;
-            this.aGauge2.Size = new System.Drawing.Size(318, 218);
-            this.aGauge2.TabIndex = 3;
-            this.aGauge2.Text = "aGauge2";
-            this.aGauge2.Value = 0F;
+            this.labelTempTxt.AutoSize = true;
+            this.labelTempTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTempTxt.Location = new System.Drawing.Point(107, 223);
+            this.labelTempTxt.Name = "labelTempTxt";
+            this.labelTempTxt.Size = new System.Drawing.Size(101, 17);
+            this.labelTempTxt.TabIndex = 4;
+            this.labelTempTxt.Text = "Temperature";
             // 
-            // aGauge1
+            // labelHumidTxt
             // 
-            this.aGauge1.BaseArcColor = System.Drawing.Color.Gray;
-            this.aGauge1.BaseArcRadius = 80;
-            this.aGauge1.BaseArcStart = 135;
-            this.aGauge1.BaseArcSweep = 270;
-            this.aGauge1.BaseArcWidth = 2;
-            this.aGauge1.Center = new System.Drawing.Point(100, 100);
-            this.aGauge1.Location = new System.Drawing.Point(44, 269);
-            this.aGauge1.MaxValue = 70F;
-            this.aGauge1.MinValue = -20F;
-            this.aGauge1.Name = "aGauge1";
-            this.aGauge1.NeedleColor1 = System.Windows.Forms.AGaugeNeedleColor.Gray;
-            this.aGauge1.NeedleColor2 = System.Drawing.Color.DimGray;
-            this.aGauge1.NeedleRadius = 80;
-            this.aGauge1.NeedleType = System.Windows.Forms.NeedleType.Advance;
-            this.aGauge1.NeedleWidth = 2;
-            this.aGauge1.ScaleLinesInterColor = System.Drawing.Color.Black;
-            this.aGauge1.ScaleLinesInterInnerRadius = 73;
-            this.aGauge1.ScaleLinesInterOuterRadius = 80;
-            this.aGauge1.ScaleLinesInterWidth = 1;
-            this.aGauge1.ScaleLinesMajorColor = System.Drawing.Color.Black;
-            this.aGauge1.ScaleLinesMajorInnerRadius = 73;
-            this.aGauge1.ScaleLinesMajorOuterRadius = 80;
-            this.aGauge1.ScaleLinesMajorStepValue = 10F;
-            this.aGauge1.ScaleLinesMajorWidth = 2;
-            this.aGauge1.ScaleLinesMinorColor = System.Drawing.Color.Gray;
-            this.aGauge1.ScaleLinesMinorInnerRadius = 75;
-            this.aGauge1.ScaleLinesMinorOuterRadius = 80;
-            this.aGauge1.ScaleLinesMinorTicks = 9;
-            this.aGauge1.ScaleLinesMinorWidth = 1;
-            this.aGauge1.ScaleNumbersColor = System.Drawing.Color.Black;
-            this.aGauge1.ScaleNumbersFormat = null;
-            this.aGauge1.ScaleNumbersRadius = 93;
-            this.aGauge1.ScaleNumbersRotation = 0;
-            this.aGauge1.ScaleNumbersStartScaleLine = 0;
-            this.aGauge1.ScaleNumbersStepScaleLines = 1;
-            this.aGauge1.Size = new System.Drawing.Size(324, 243);
-            this.aGauge1.TabIndex = 2;
-            this.aGauge1.Text = "aGauge1";
-            this.aGauge1.Value = 0F;
+            this.labelHumidTxt.AutoSize = true;
+            this.labelHumidTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelHumidTxt.Location = new System.Drawing.Point(516, 223);
+            this.labelHumidTxt.Name = "labelHumidTxt";
+            this.labelHumidTxt.Size = new System.Drawing.Size(70, 17);
+            this.labelHumidTxt.TabIndex = 5;
+            this.labelHumidTxt.Text = "Humidity";
+            this.labelHumidTxt.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // labelTempValue
+            // 
+            this.labelTempValue.AutoSize = true;
+            this.labelTempValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTempValue.Location = new System.Drawing.Point(121, 188);
+            this.labelTempValue.Name = "labelTempValue";
+            this.labelTempValue.Size = new System.Drawing.Size(27, 20);
+            this.labelTempValue.TabIndex = 6;
+            this.labelTempValue.Text = "°C";
+            // 
+            // labelHumidValue
+            // 
+            this.labelHumidValue.AutoSize = true;
+            this.labelHumidValue.BackColor = System.Drawing.Color.Transparent;
+            this.labelHumidValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelHumidValue.Location = new System.Drawing.Point(515, 188);
+            this.labelHumidValue.Name = "labelHumidValue";
+            this.labelHumidValue.Size = new System.Drawing.Size(24, 20);
+            this.labelHumidValue.TabIndex = 7;
+            this.labelHumidValue.Text = "%";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(951, 514);
-            this.Controls.Add(this.aGauge2);
-            this.Controls.Add(this.aGauge1);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBoxData);
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.ClientSize = new System.Drawing.Size(713, 302);
+            this.Controls.Add(this.labelHumidValue);
+            this.Controls.Add(this.labelTempValue);
+            this.Controls.Add(this.labelHumidTxt);
+            this.Controls.Add(this.labelTempTxt);
+            this.Controls.Add(this.aGaugeHumid);
+            this.Controls.Add(this.aGaugeTemp);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Weather station";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -156,11 +184,12 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.TextBox textBoxData;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.AGauge aGauge1;
-        private System.Windows.Forms.AGauge aGauge2;
+        private System.Windows.Forms.AGauge aGaugeTemp;
+        private System.Windows.Forms.AGauge aGaugeHumid;
+        private System.Windows.Forms.Label labelTempTxt;
+        private System.Windows.Forms.Label labelHumidTxt;
+        private System.Windows.Forms.Label labelTempValue;
+        private System.Windows.Forms.Label labelHumidValue;
     }
 }
 

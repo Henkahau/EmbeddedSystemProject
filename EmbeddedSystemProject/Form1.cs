@@ -15,10 +15,6 @@ namespace EmbeddedSystemProject
 {
     public partial class Form1 : Form
     {
-
-        float gauge;
-
-        private string dataStr;
         private float fTemp = 0;
         private float fHumid = 0;
 
@@ -30,38 +26,46 @@ namespace EmbeddedSystemProject
 
         public Form1()
         {
-            InitializeComponent();
-           
+            InitializeComponent();     
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             //connect to MySql-database
-            string connectionString = "server='192.168.137.76'; database=weatherLog; user=user; password = pass;";
+            string connectionString = "server='192.168.137.149'; database=weatherLog; user=user; password = pass;";
 
             myConnection = new MySqlConnection(connectionString);
 
-            myConnection.Open();
-
+            try
+            {
+                //yrittää yhdistää tietokantaan
+                myConnection.Open();
+            }
+            catch(MySqlException)
+            {
+                //Jos yhteyttä tietokantaan ei ole näytetään messagebox
+                MessageBox.Show("Cannot connect to database. Check your network"+Environment.NewLine+"Program will be closed");
+                
+            }
+            finally
+            {
+                //Jos yhteyttä ei saada ohjelma sammuu
+                if (!(myConnection.State == ConnectionState.Open))
+                    Application.Exit();
+            }
+            
             if (myConnection.State != ConnectionState.Open)
-                MessageBox.Show("Cannot connect to database");
+                MessageBox.Show("Cannot open database");
             else
-                Console.WriteLine("Connection ok");
+                Console.WriteLine("Database opened");
             
             //tehdään timer 
-            timer = new System.Timers.Timer(1000);
+            timer = new System.Timers.Timer(500);
             timer.Start();
             timer.Elapsed += readDataFromDb;
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            textBoxData.Text = dataStr;
-            // käännetään mittarit näyttämään mitattuja arvoja 
-            
-            
-        }
 
         private void readDataFromDb(object source, ElapsedEventArgs e)
         {
@@ -75,8 +79,8 @@ namespace EmbeddedSystemProject
                 //read data from db to console
                 dataReader = myCommand.ExecuteReader();
                 dataReader.Read();
-                dataStr = dataReader.GetFloat(2).ToString();
-                Console.WriteLine(dataStr);
+     
+                Console.WriteLine(dataReader.GetFloat(2).ToString());
                 fTemp = dataReader.GetFloat(2);
                 fHumid = dataReader.GetFloat(3);
 
@@ -84,6 +88,8 @@ namespace EmbeddedSystemProject
                 this.Invoke(del);
 
                 dataReader.Close();
+
+                myCommand.Dispose();
             }
             catch (MySqlException)
             {
@@ -99,9 +105,13 @@ namespace EmbeddedSystemProject
         {
             //valtterin mittareihin välitettävät datat:
             //fHumid ja fTemp
-            textBoxData.Text = dataStr;
-            aGauge1.Value = fTemp;
-            aGauge2.Value =  fHumid;
+            aGaugeTemp.Value = fTemp;
+            labelTempValue.Text = fTemp.ToString()+" "+ "°C";
+
+            aGaugeHumid.Value =  fHumid;
+            labelHumidValue.Text = fHumid.ToString()+" "+"%";
         }
+
+      
     }
 }
