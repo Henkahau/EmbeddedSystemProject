@@ -59,8 +59,8 @@ namespace EmbeddedSystemProject
         {
             textBoxData.Text = dataStr;
             // käännetään mittarit näyttämään mitattuja arvoja 
-            aGauge1.Value = gauge;
-            aGauge2.Value = gauge * 2;
+            
+            
         }
 
         private void readDataFromDb(object source, ElapsedEventArgs e)
@@ -100,6 +100,8 @@ namespace EmbeddedSystemProject
             //valtterin mittareihin välitettävät datat:
             //fHumid ja fTemp
             textBoxData.Text = dataStr;
+            aGauge1.Value = fTemp;
+            aGauge2.Value =  fHumid;
         }
     }
 }

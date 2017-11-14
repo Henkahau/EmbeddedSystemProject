@@ -37,7 +37,7 @@
             // textBoxData
             // 
             this.textBoxData.Location = new System.Drawing.Point(67, 105);
-            this.textBoxData.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBoxData.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxData.Name = "textBoxData";
             this.textBoxData.Size = new System.Drawing.Size(243, 22);
             this.textBoxData.TabIndex = 0;
@@ -45,7 +45,7 @@
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(67, 178);
-            this.button1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(100, 28);
             this.button1.TabIndex = 1;
@@ -62,8 +62,8 @@
             this.aGauge2.BaseArcWidth = 2;
             this.aGauge2.Center = new System.Drawing.Point(100, 100);
             this.aGauge2.Location = new System.Drawing.Point(607, 118);
-            this.aGauge2.MaxValue = 110F;
-            this.aGauge2.MinValue = -40F;
+            this.aGauge2.MaxValue = 101F;
+            this.aGauge2.MinValue = 0F;
             this.aGauge2.Name = "aGauge2";
             this.aGauge2.NeedleColor1 = System.Windows.Forms.AGaugeNeedleColor.Gray;
             this.aGauge2.NeedleColor2 = System.Drawing.Color.DimGray;
@@ -104,8 +104,8 @@
             this.aGauge1.BaseArcWidth = 2;
             this.aGauge1.Center = new System.Drawing.Point(100, 100);
             this.aGauge1.Location = new System.Drawing.Point(44, 269);
-            this.aGauge1.MaxValue = 110F;
-            this.aGauge1.MinValue = -40F;
+            this.aGauge1.MaxValue = 70F;
+            this.aGauge1.MinValue = -20F;
             this.aGauge1.Name = "aGauge1";
             this.aGauge1.NeedleColor1 = System.Windows.Forms.AGaugeNeedleColor.Gray;
             this.aGauge1.NeedleColor2 = System.Drawing.Color.DimGray;
@@ -146,7 +146,7 @@
             this.Controls.Add(this.aGauge1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBoxData);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
