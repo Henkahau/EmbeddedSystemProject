@@ -16,6 +16,9 @@ namespace EmbeddedSystemProject
     //testi
     public partial class Form1 : Form
     {
+
+        float gauge;
+
         private string dataStr;
         private System.Timers.Timer timer;
         MySqlConnection myConnection;
@@ -51,6 +54,9 @@ namespace EmbeddedSystemProject
         private void button1_Click(object sender, EventArgs e)
         {
             textBoxData.Text = dataStr;
+            // käännetään mittarit näyttämään mitattuja arvoja 
+            aGauge1.Value = gauge;
+            aGauge2.Value = gauge * 2;
         }
 
         private void readDataFromDb(object source, ElapsedEventArgs e)
@@ -66,7 +72,11 @@ namespace EmbeddedSystemProject
             dataStr = dataReader.GetFloat(2).ToString();
             Console.WriteLine(dataReader.GetFloat(2));
             //textBoxData.Text = dataStr;
+            gauge = dataReader.GetFloat(2);
+            
             dataReader.Close();
+
+           
         }
     }
 }
