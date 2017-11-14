@@ -20,6 +20,7 @@ namespace EmbeddedSystemProject
         MySqlConnection myConnection;
         MySqlCommand myCommand;
         MySqlDataReader dataReader;
+        private delegate void DELEGATE();
 
         public Form1()
         {
@@ -66,7 +67,12 @@ namespace EmbeddedSystemProject
                 dataReader = myCommand.ExecuteReader();
                 dataReader.Read();
                 dataStr = dataReader.GetFloat(2).ToString();
-                Console.WriteLine(dataReader.GetFloat(2));
+                Console.WriteLine(dataStr);
+                //textBoxData.Text = dataStr;
+
+                Delegate del = new DELEGATE(WriteData);
+                this.Invoke(del);
+
                 dataReader.Close();
             }
             catch (MySqlException)
@@ -75,8 +81,13 @@ namespace EmbeddedSystemProject
             }
             finally
             {
-                if (!dataReader.IsClosed) dataReader.Close();   
+                if (!dataReader.IsClosed) dataReader.Close();
             }
+        }
+
+        private void WriteData()
+        {
+            textBoxData.Text = dataStr;
         }
     }
 }
