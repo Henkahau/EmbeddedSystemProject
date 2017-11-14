@@ -16,6 +16,9 @@ namespace EmbeddedSystemProject
     public partial class Form1 : Form
     {
         private string dataStr;
+        private float fTemp = 0;
+        private float fHumid = 0;
+
         private System.Timers.Timer timer;
         MySqlConnection myConnection;
         MySqlCommand myCommand;
@@ -68,7 +71,8 @@ namespace EmbeddedSystemProject
                 dataReader.Read();
                 dataStr = dataReader.GetFloat(2).ToString();
                 Console.WriteLine(dataStr);
-                //textBoxData.Text = dataStr;
+                fTemp = dataReader.GetFloat(2);
+                fHumid = dataReader.GetFloat(3);
 
                 Delegate del = new DELEGATE(WriteData);
                 this.Invoke(del);
@@ -87,6 +91,8 @@ namespace EmbeddedSystemProject
 
         private void WriteData()
         {
+            //valtterin mittareihin välitettävät datat:
+            //fHumid ja fTemp
             textBoxData.Text = dataStr;
         }
     }
