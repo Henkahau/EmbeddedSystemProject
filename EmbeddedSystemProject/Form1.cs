@@ -13,13 +13,13 @@ using System.Timers;
 
 namespace EmbeddedSystemProject
 {
-    //testi
     public partial class Form1 : Form
     {
         private string dataStr;
         private System.Timers.Timer timer;
         MySqlConnection myConnection;
         MySqlCommand myCommand;
+        MySqlDataReader dataReader;
 
         public Form1()
         {
@@ -55,18 +55,28 @@ namespace EmbeddedSystemProject
 
         private void readDataFromDb(object source, ElapsedEventArgs e)
         {
-            //tämä suoritetaan kun timer on päässyt loppuun
+            // Tämä suoritetaan kun timer on päässyt loppuun
+            // Luotiin try-catch välttämään satunnainen (harvinainen) virhe datareaderin sulkemisessa
+            try
+            {
+                dataReader = null;
+                myCommand = new MySqlCommand("SELECT * FROM dataLog ORDER BY id DESC LIMIT 1", myConnection);
 
-            MySqlDataReader dataReader = null;
-            myCommand = new MySqlCommand("SELECT * FROM dataLog ORDER BY id DESC LIMIT 1", myConnection);
-
-            //read data from db to console
-            dataReader = myCommand.ExecuteReader();
-            dataReader.Read();
-            dataStr = dataReader.GetFloat(2).ToString();
-            Console.WriteLine(dataReader.GetFloat(2));
-            //textBoxData.Text = dataStr;
-            dataReader.Close();
+                //read data from db to console
+                dataReader = myCommand.ExecuteReader();
+                dataReader.Read();
+                dataStr = dataReader.GetFloat(2).ToString();
+                Console.WriteLine(dataReader.GetFloat(2));
+                dataReader.Close();
+            }
+            catch (MySqlException)
+            {
+                Console.WriteLine("DataReader was not closed properly the first time");
+            }
+            finally
+            {
+                if (!dataReader.IsClosed) dataReader.Close();   
+            }
         }
     }
 }
