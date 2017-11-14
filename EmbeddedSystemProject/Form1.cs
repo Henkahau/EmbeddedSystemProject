@@ -13,16 +13,20 @@ using System.Timers;
 
 namespace EmbeddedSystemProject
 {
-    //testi
     public partial class Form1 : Form
     {
 
         float gauge;
 
         private string dataStr;
+        private float fTemp = 0;
+        private float fHumid = 0;
+
         private System.Timers.Timer timer;
         MySqlConnection myConnection;
         MySqlCommand myCommand;
+        MySqlDataReader dataReader;
+        private delegate void DELEGATE();
 
         public Form1()
         {
@@ -61,22 +65,41 @@ namespace EmbeddedSystemProject
 
         private void readDataFromDb(object source, ElapsedEventArgs e)
         {
-            //tämä suoritetaan kun timer on päässyt loppuun
+            // Tämä suoritetaan kun timer on päässyt loppuun
+            // Luotiin try-catch välttämään satunnainen (harvinainen) virhe datareaderin sulkemisessa
+            try
+            {
+                dataReader = null;
+                myCommand = new MySqlCommand("SELECT * FROM dataLog ORDER BY id DESC LIMIT 1", myConnection);
 
-            MySqlDataReader dataReader = null;
-            myCommand = new MySqlCommand("SELECT * FROM dataLog ORDER BY id DESC LIMIT 1", myConnection);
+                //read data from db to console
+                dataReader = myCommand.ExecuteReader();
+                dataReader.Read();
+                dataStr = dataReader.GetFloat(2).ToString();
+                Console.WriteLine(dataStr);
+                fTemp = dataReader.GetFloat(2);
+                fHumid = dataReader.GetFloat(3);
 
-            //read data from db to console
-            dataReader = myCommand.ExecuteReader();
-            dataReader.Read();
-            dataStr = dataReader.GetFloat(2).ToString();
-            Console.WriteLine(dataReader.GetFloat(2));
-            //textBoxData.Text = dataStr;
-            gauge = dataReader.GetFloat(2);
-            
-            dataReader.Close();
+                Delegate del = new DELEGATE(WriteData);
+                this.Invoke(del);
 
-           
+                dataReader.Close();
+            }
+            catch (MySqlException)
+            {
+                Console.WriteLine("DataReader was not closed properly the first time");
+            }
+            finally
+            {
+                if (!dataReader.IsClosed) dataReader.Close();
+            }
+        }
+
+        private void WriteData()
+        {
+            //valtterin mittareihin välitettävät datat:
+            //fHumid ja fTemp
+            textBoxData.Text = dataStr;
         }
     }
 }
