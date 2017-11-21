@@ -14,10 +14,11 @@ using System.Timers;
 namespace EmbeddedSystemProject
 {
     public partial class Form1 : Form
-    {
+    { 
         private float fTemp = 0;
         private float fHumid = 0;
-
+        private DateTime time = new DateTime();
+              
         private System.Timers.Timer timer;
         MySqlConnection myConnection;
         MySqlCommand myCommand;
@@ -32,7 +33,7 @@ namespace EmbeddedSystemProject
         private void Form1_Load(object sender, EventArgs e)
         {
             //connect to MySql-database
-            string connectionString = "server='192.168.137.149'; database=weatherLog; user=user; password = pass;";
+            string connectionString = "server='192.168.137.166'; database=weatherLog; user=user; password = pass;";
 
             myConnection = new MySqlConnection(connectionString);
 
@@ -60,7 +61,7 @@ namespace EmbeddedSystemProject
                 Console.WriteLine("Database opened");
             
             //tehdään timer 
-            timer = new System.Timers.Timer(500);
+            timer = new System.Timers.Timer(1000);
             timer.Start();
             timer.Elapsed += readDataFromDb;
 
@@ -107,9 +108,15 @@ namespace EmbeddedSystemProject
             //fHumid ja fTemp
             aGaugeTemp.Value = fTemp;
             labelTempValue.Text = fTemp.ToString()+" "+ "°C";
-
+            time = DateTime.Now;
+            
+            
             aGaugeHumid.Value =  fHumid;
             labelHumidValue.Text = fHumid.ToString()+" "+"%";
+            
+            //kaavio
+            chartHistory.Series["Temperature"].Points.AddXY(time, fTemp);
+
         }
 
       
