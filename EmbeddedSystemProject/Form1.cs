@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using System.Threading;
 using System.Timers;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace EmbeddedSystemProject
 {
@@ -17,12 +18,14 @@ namespace EmbeddedSystemProject
     { 
         private float fTemp = 0;
         private float fHumid = 0;
-        private DateTime time = new DateTime();
-              
+        
+        AxisScrollBar scrollBar = new AxisScrollBar();
+        List<float> valuesList = new List<float>();
+        
         private System.Timers.Timer timer;
         MySqlConnection myConnection;
-        MySqlCommand myCommand;
         MySqlDataReader dataReader;
+
         private delegate void DELEGATE();
 
         public Form1()
@@ -33,7 +36,7 @@ namespace EmbeddedSystemProject
         private void Form1_Load(object sender, EventArgs e)
         {
             //connect to MySql-database
-            string connectionString = "server='192.168.137.166'; database=weatherLog; user=user; password = pass;";
+            string connectionString = "server='192.168.137.195'; database=weatherLog; user=user; password = pass;";
 
             myConnection = new MySqlConnection(connectionString);
 
@@ -75,12 +78,14 @@ namespace EmbeddedSystemProject
             try
             {
                 dataReader = null;
-                myCommand = new MySqlCommand("SELECT * FROM dataLog ORDER BY id DESC LIMIT 1", myConnection);
-
+               
+                MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT * FROM dataLog ORDER BY id DESC LIMIT 1", myConnection);
+                MySqlCommand getCount = new MySqlCommand("SELECT MAX(id) FROM historyLog", myConnection);
                 //read data from db to console
-                dataReader = myCommand.ExecuteReader();
+                dataReader = mySqlCommandGetValues.ExecuteReader();
+                
                 dataReader.Read();
-     
+             
                 Console.WriteLine(dataReader.GetFloat(2).ToString());
                 fTemp = dataReader.GetFloat(2);
                 fHumid = dataReader.GetFloat(3);
@@ -90,7 +95,19 @@ namespace EmbeddedSystemProject
 
                 dataReader.Close();
 
-                myCommand.Dispose();
+                dataReader = getCount.ExecuteReader();
+                dataReader.Read();
+                int counter = dataReader.GetInt16(0);
+                Console.WriteLine(counter);
+
+                for(int i = 0; i<counter; i++)
+                {
+
+                }
+
+                mySqlCommandGetValues.Dispose();
+                getCount.Dispose();
+                
             }
             catch (MySqlException)
             {
@@ -100,6 +117,8 @@ namespace EmbeddedSystemProject
             {
                 if (!dataReader.IsClosed) dataReader.Close();
             }
+
+            
         }
 
         private void WriteData()
@@ -108,17 +127,33 @@ namespace EmbeddedSystemProject
             //fHumid ja fTemp
             aGaugeTemp.Value = fTemp;
             labelTempValue.Text = fTemp.ToString()+" "+ "°C";
-            time = DateTime.Now;
-            
+            int hour = DateTime.Now.Hour;
+            int minute = DateTime.Now.Minute;
+            int second = DateTime.Now.Second;
+            string timeStr = hour.ToString() + ":" + minute.ToString() + ":" + second.ToString();
             
             aGaugeHumid.Value =  fHumid;
             labelHumidValue.Text = fHumid.ToString()+" "+"%";
             
-            //kaavio
-            chartHistory.Series["Temperature"].Points.AddXY(time, fTemp);
+
+            //live data kaavio
+            //määritellään scrollbarit
+            double maxX = chartLiveData.ChartAreas["ChartArea1"].AxisX.Maximum;
+            chartLiveData.ChartAreas["ChartArea1"].AxisX.ScrollBar.Size = 10;
+            chartLiveData.ChartAreas["ChartArea1"].AxisX.ScrollBar.Enabled = true;
+            chartLiveData.ChartAreas["ChartArea1"].AxisX.ScrollBar.IsPositionedInside = true;
+            
+            //kaavion pisteet
+            chartLiveData.Series["Temperature"].Points.AddY(fTemp);
+            chartLiveData.Series["Humidity"].Points.AddY(fHumid);
+            chartLiveData.ChartAreas["ChartArea1"].AxisX.ScaleView.Zoom(maxX -15, maxX);
+
 
         }
 
-      
+
     }
+
+   
+
 }

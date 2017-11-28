@@ -31,64 +31,98 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.aGaugeHumid = new System.Windows.Forms.AGauge();
-            this.aGaugeTemp = new System.Windows.Forms.AGauge();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.labelTempTxt = new System.Windows.Forms.Label();
             this.labelHumidTxt = new System.Windows.Forms.Label();
             this.labelTempValue = new System.Windows.Forms.Label();
             this.labelHumidValue = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.aGaugeTemp = new System.Windows.Forms.AGauge();
+            this.aGaugeHumid = new System.Windows.Forms.AGauge();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.chartHistory = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chartLiveData = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chartHistory)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartLiveData)).BeginInit();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
-            // aGaugeHumid
+            // labelTempTxt
             // 
-            this.aGaugeHumid.BaseArcColor = System.Drawing.Color.MidnightBlue;
-            this.aGaugeHumid.BaseArcRadius = 80;
-            this.aGaugeHumid.BaseArcStart = 135;
-            this.aGaugeHumid.BaseArcSweep = 270;
-            this.aGaugeHumid.BaseArcWidth = 2;
-            this.aGaugeHumid.Center = new System.Drawing.Point(100, 100);
-            this.aGaugeHumid.Location = new System.Drawing.Point(270, 18);
-            this.aGaugeHumid.Margin = new System.Windows.Forms.Padding(2);
-            this.aGaugeHumid.MaxValue = 100F;
-            this.aGaugeHumid.MinValue = 0F;
-            this.aGaugeHumid.Name = "aGaugeHumid";
-            this.aGaugeHumid.NeedleColor1 = System.Windows.Forms.AGaugeNeedleColor.Blue;
-            this.aGaugeHumid.NeedleColor2 = System.Drawing.Color.MidnightBlue;
-            this.aGaugeHumid.NeedleRadius = 80;
-            this.aGaugeHumid.NeedleType = System.Windows.Forms.NeedleType.Advance;
-            this.aGaugeHumid.NeedleWidth = 5;
-            this.aGaugeHumid.ScaleLinesInterColor = System.Drawing.Color.Black;
-            this.aGaugeHumid.ScaleLinesInterInnerRadius = 73;
-            this.aGaugeHumid.ScaleLinesInterOuterRadius = 80;
-            this.aGaugeHumid.ScaleLinesInterWidth = 1;
-            this.aGaugeHumid.ScaleLinesMajorColor = System.Drawing.Color.Black;
-            this.aGaugeHumid.ScaleLinesMajorInnerRadius = 70;
-            this.aGaugeHumid.ScaleLinesMajorOuterRadius = 80;
-            this.aGaugeHumid.ScaleLinesMajorStepValue = 20F;
-            this.aGaugeHumid.ScaleLinesMajorWidth = 2;
-            this.aGaugeHumid.ScaleLinesMinorColor = System.Drawing.Color.Gray;
-            this.aGaugeHumid.ScaleLinesMinorInnerRadius = 75;
-            this.aGaugeHumid.ScaleLinesMinorOuterRadius = 80;
-            this.aGaugeHumid.ScaleLinesMinorTicks = 9;
-            this.aGaugeHumid.ScaleLinesMinorWidth = 1;
-            this.aGaugeHumid.ScaleNumbersColor = System.Drawing.Color.Black;
-            this.aGaugeHumid.ScaleNumbersFormat = null;
-            this.aGaugeHumid.ScaleNumbersRadius = 95;
-            this.aGaugeHumid.ScaleNumbersRotation = 0;
-            this.aGaugeHumid.ScaleNumbersStartScaleLine = 0;
-            this.aGaugeHumid.ScaleNumbersStepScaleLines = 1;
-            this.aGaugeHumid.Size = new System.Drawing.Size(199, 205);
-            this.aGaugeHumid.TabIndex = 3;
-            this.aGaugeHumid.Text = "aGauge2";
-            this.aGaugeHumid.Value = 0F;
+            this.labelTempTxt.AutoSize = true;
+            this.labelTempTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTempTxt.Location = new System.Drawing.Point(130, 268);
+            this.labelTempTxt.Name = "labelTempTxt";
+            this.labelTempTxt.Size = new System.Drawing.Size(101, 17);
+            this.labelTempTxt.TabIndex = 4;
+            this.labelTempTxt.Text = "Temperature";
+            // 
+            // labelHumidTxt
+            // 
+            this.labelHumidTxt.AutoSize = true;
+            this.labelHumidTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelHumidTxt.Location = new System.Drawing.Point(499, 268);
+            this.labelHumidTxt.Name = "labelHumidTxt";
+            this.labelHumidTxt.Size = new System.Drawing.Size(70, 17);
+            this.labelHumidTxt.TabIndex = 5;
+            this.labelHumidTxt.Text = "Humidity";
+            this.labelHumidTxt.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // labelTempValue
+            // 
+            this.labelTempValue.AutoSize = true;
+            this.labelTempValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTempValue.Location = new System.Drawing.Point(142, 235);
+            this.labelTempValue.Name = "labelTempValue";
+            this.labelTempValue.Size = new System.Drawing.Size(27, 20);
+            this.labelTempValue.TabIndex = 6;
+            this.labelTempValue.Text = "°C";
+            // 
+            // labelHumidValue
+            // 
+            this.labelHumidValue.AutoSize = true;
+            this.labelHumidValue.BackColor = System.Drawing.Color.Transparent;
+            this.labelHumidValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelHumidValue.Location = new System.Drawing.Point(498, 248);
+            this.labelHumidValue.Name = "labelHumidValue";
+            this.labelHumidValue.Size = new System.Drawing.Size(24, 20);
+            this.labelHumidValue.TabIndex = 7;
+            this.labelHumidValue.Text = "%";
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Location = new System.Drawing.Point(13, 13);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(717, 432);
+            this.tabControl1.TabIndex = 8;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.labelTempValue);
+            this.tabPage1.Controls.Add(this.labelHumidValue);
+            this.tabPage1.Controls.Add(this.labelTempTxt);
+            this.tabPage1.Controls.Add(this.labelHumidTxt);
+            this.tabPage1.Controls.Add(this.aGaugeTemp);
+            this.tabPage1.Controls.Add(this.aGaugeHumid);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(709, 406);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Real-Time Gauges";
+            this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // aGaugeTemp
             // 
@@ -98,7 +132,7 @@
             this.aGaugeTemp.BaseArcSweep = 270;
             this.aGaugeTemp.BaseArcWidth = 2;
             this.aGaugeTemp.Center = new System.Drawing.Point(100, 100);
-            this.aGaugeTemp.Location = new System.Drawing.Point(5, 18);
+            this.aGaugeTemp.Location = new System.Drawing.Point(75, 80);
             this.aGaugeTemp.Margin = new System.Windows.Forms.Padding(2);
             this.aGaugeTemp.MaxValue = 70F;
             this.aGaugeTemp.MinValue = -20F;
@@ -133,107 +167,114 @@
             this.aGaugeTemp.Text = "aGauge1";
             this.aGaugeTemp.Value = 0F;
             // 
-            // labelTempTxt
+            // aGaugeHumid
             // 
-            this.labelTempTxt.AutoSize = true;
-            this.labelTempTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTempTxt.Location = new System.Drawing.Point(60, 206);
-            this.labelTempTxt.Name = "labelTempTxt";
-            this.labelTempTxt.Size = new System.Drawing.Size(101, 17);
-            this.labelTempTxt.TabIndex = 4;
-            this.labelTempTxt.Text = "Temperature";
-            // 
-            // labelHumidTxt
-            // 
-            this.labelHumidTxt.AutoSize = true;
-            this.labelHumidTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelHumidTxt.Location = new System.Drawing.Point(331, 206);
-            this.labelHumidTxt.Name = "labelHumidTxt";
-            this.labelHumidTxt.Size = new System.Drawing.Size(70, 17);
-            this.labelHumidTxt.TabIndex = 5;
-            this.labelHumidTxt.Text = "Humidity";
-            this.labelHumidTxt.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // labelTempValue
-            // 
-            this.labelTempValue.AutoSize = true;
-            this.labelTempValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTempValue.Location = new System.Drawing.Point(72, 173);
-            this.labelTempValue.Name = "labelTempValue";
-            this.labelTempValue.Size = new System.Drawing.Size(27, 20);
-            this.labelTempValue.TabIndex = 6;
-            this.labelTempValue.Text = "°C";
-            // 
-            // labelHumidValue
-            // 
-            this.labelHumidValue.AutoSize = true;
-            this.labelHumidValue.BackColor = System.Drawing.Color.Transparent;
-            this.labelHumidValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelHumidValue.Location = new System.Drawing.Point(330, 186);
-            this.labelHumidValue.Name = "labelHumidValue";
-            this.labelHumidValue.Size = new System.Drawing.Size(24, 20);
-            this.labelHumidValue.TabIndex = 7;
-            this.labelHumidValue.Text = "%";
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(13, 13);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(539, 277);
-            this.tabControl1.TabIndex = 8;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.labelTempValue);
-            this.tabPage1.Controls.Add(this.labelHumidValue);
-            this.tabPage1.Controls.Add(this.labelTempTxt);
-            this.tabPage1.Controls.Add(this.labelHumidTxt);
-            this.tabPage1.Controls.Add(this.aGaugeTemp);
-            this.tabPage1.Controls.Add(this.aGaugeHumid);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(531, 251);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "tabPage1";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.aGaugeHumid.BaseArcColor = System.Drawing.Color.MidnightBlue;
+            this.aGaugeHumid.BaseArcRadius = 80;
+            this.aGaugeHumid.BaseArcStart = 135;
+            this.aGaugeHumid.BaseArcSweep = 270;
+            this.aGaugeHumid.BaseArcWidth = 2;
+            this.aGaugeHumid.Center = new System.Drawing.Point(100, 100);
+            this.aGaugeHumid.Location = new System.Drawing.Point(438, 80);
+            this.aGaugeHumid.Margin = new System.Windows.Forms.Padding(2);
+            this.aGaugeHumid.MaxValue = 100F;
+            this.aGaugeHumid.MinValue = 0F;
+            this.aGaugeHumid.Name = "aGaugeHumid";
+            this.aGaugeHumid.NeedleColor1 = System.Windows.Forms.AGaugeNeedleColor.Blue;
+            this.aGaugeHumid.NeedleColor2 = System.Drawing.Color.MidnightBlue;
+            this.aGaugeHumid.NeedleRadius = 80;
+            this.aGaugeHumid.NeedleType = System.Windows.Forms.NeedleType.Advance;
+            this.aGaugeHumid.NeedleWidth = 5;
+            this.aGaugeHumid.ScaleLinesInterColor = System.Drawing.Color.Black;
+            this.aGaugeHumid.ScaleLinesInterInnerRadius = 73;
+            this.aGaugeHumid.ScaleLinesInterOuterRadius = 80;
+            this.aGaugeHumid.ScaleLinesInterWidth = 1;
+            this.aGaugeHumid.ScaleLinesMajorColor = System.Drawing.Color.Black;
+            this.aGaugeHumid.ScaleLinesMajorInnerRadius = 70;
+            this.aGaugeHumid.ScaleLinesMajorOuterRadius = 80;
+            this.aGaugeHumid.ScaleLinesMajorStepValue = 20F;
+            this.aGaugeHumid.ScaleLinesMajorWidth = 2;
+            this.aGaugeHumid.ScaleLinesMinorColor = System.Drawing.Color.Gray;
+            this.aGaugeHumid.ScaleLinesMinorInnerRadius = 75;
+            this.aGaugeHumid.ScaleLinesMinorOuterRadius = 80;
+            this.aGaugeHumid.ScaleLinesMinorTicks = 9;
+            this.aGaugeHumid.ScaleLinesMinorWidth = 1;
+            this.aGaugeHumid.ScaleNumbersColor = System.Drawing.Color.Black;
+            this.aGaugeHumid.ScaleNumbersFormat = null;
+            this.aGaugeHumid.ScaleNumbersRadius = 95;
+            this.aGaugeHumid.ScaleNumbersRotation = 0;
+            this.aGaugeHumid.ScaleNumbersStartScaleLine = 0;
+            this.aGaugeHumid.ScaleNumbersStepScaleLines = 1;
+            this.aGaugeHumid.Size = new System.Drawing.Size(199, 205);
+            this.aGaugeHumid.TabIndex = 3;
+            this.aGaugeHumid.Text = "aGauge2";
+            this.aGaugeHumid.Value = 0F;
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.chartHistory);
+            this.tabPage2.Controls.Add(this.chartLiveData);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(531, 251);
+            this.tabPage2.Size = new System.Drawing.Size(709, 406);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // chartHistory
+            // chartLiveData
             // 
+            chartArea1.AxisY.Title = "Temperature °C, Humidity %";
             chartArea1.Name = "ChartArea1";
-            this.chartHistory.ChartAreas.Add(chartArea1);
+            this.chartLiveData.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
-            this.chartHistory.Legends.Add(legend1);
-            this.chartHistory.Location = new System.Drawing.Point(88, 6);
-            this.chartHistory.Name = "chartHistory";
+            this.chartLiveData.Legends.Add(legend1);
+            this.chartLiveData.Location = new System.Drawing.Point(6, 6);
+            this.chartLiveData.Name = "chartLiveData";
             series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series1.Legend = "Legend1";
-            series1.Name = "Temperature";
-            this.chartHistory.Series.Add(series1);
-            this.chartHistory.Size = new System.Drawing.Size(437, 249);
-            this.chartHistory.TabIndex = 0;
-            this.chartHistory.Text = "chart1";
+            series1.Name = "Humidity";
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series2.Legend = "Legend1";
+            series2.Name = "Temperature";
+            this.chartLiveData.Series.Add(series1);
+            this.chartLiveData.Series.Add(series2);
+            this.chartLiveData.Size = new System.Drawing.Size(697, 397);
+            this.chartLiveData.TabIndex = 0;
+            this.chartLiveData.Text = "chart1";
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.chart1);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(709, 406);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "tabPage3";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // chart1
+            // 
+            chartArea2.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chart1.Legends.Add(legend2);
+            this.chart1.Location = new System.Drawing.Point(91, 19);
+            this.chart1.Name = "chart1";
+            series3.ChartArea = "ChartArea1";
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.chart1.Series.Add(series3);
+            this.chart1.Size = new System.Drawing.Size(580, 365);
+            this.chart1.TabIndex = 0;
+            this.chart1.Text = "chart1";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(569, 302);
+            this.ClientSize = new System.Drawing.Size(742, 457);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
             this.Text = "Weather station";
@@ -242,7 +283,9 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
             this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.chartHistory)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartLiveData)).EndInit();
+            this.tabPage3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -257,7 +300,9 @@
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chartHistory;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartLiveData;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
     }
 }
 
