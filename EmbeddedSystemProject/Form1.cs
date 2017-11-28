@@ -33,7 +33,7 @@ namespace EmbeddedSystemProject
         private void Form1_Load(object sender, EventArgs e)
         {
             //connect to MySql-database
-            string connectionString = "server='192.168.137.166'; database=weatherLog; user=user; password = pass;";
+            string connectionString = "server='192.168.137.54'; database=weatherLog; user=user; password = pass;";
 
             myConnection = new MySqlConnection(connectionString);
 
