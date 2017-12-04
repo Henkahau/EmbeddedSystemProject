@@ -58,36 +58,36 @@ namespace EmbeddedSystemProject
             
             oConnectDb.getLiveDataFromDb();
 
-            historyCounter = oConnectDb.getHistoryDataCounter();
+            //historyCounter = oConnectDb.getHistoryDataCounter();
 
-            if (historyCounter > oldHistoryCounter)
-            {
-                //minimi kosteusarvot
-                for (int i = 1; i < historyCounter+1; i++)
-                {
-                    minHumidList.Add(oConnectDb.getHumidityHistoryMin(i));
-                }
+            //if (historyCounter > oldHistoryCounter)
+            //{
+            //    //minimi kosteusarvot
+            //    for (int i = 1; i < historyCounter+1; i++)
+            //    {
+            //        minHumidList.Add(oConnectDb.getHumidityHistoryMin(i));
+            //    }
 
-                //maksimi kosteusarvot
-                for (int i = 1; i < historyCounter + 1; i++)
-                {
-                    maxHumidList.Add(oConnectDb.getHumidityHistoryMax(i));
-                }
+            //    //maksimi kosteusarvot
+            //    for (int i = 1; i < historyCounter + 1; i++)
+            //    {
+            //        maxHumidList.Add(oConnectDb.getHumidityHistoryMax(i));
+            //    }
 
-                //minimi lämpötila-arvot
-                for (int i = 1; i < historyCounter + 1; i++)
-                {
-                    minTempList.Add(oConnectDb.getTemperatureHistoryMin(i));
-                }
+            //    //minimi lämpötila-arvot
+            //    for (int i = 1; i < historyCounter + 1; i++)
+            //    {
+            //        minTempList.Add(oConnectDb.getTemperatureHistoryMin(i));
+            //    }
 
-                //maksimi lämpötila-arvot
-                for (int i = 1; i < historyCounter + 1; i++)
-                {
-                    maxTempList.Add(oConnectDb.getTemperatureHistoryMax(i));
-                }
+            //    //maksimi lämpötila-arvot
+            //    for (int i = 1; i < historyCounter + 1; i++)
+            //    {
+            //        maxTempList.Add(oConnectDb.getTemperatureHistoryMax(i));
+            //    }
 
-                oldHistoryCounter = historyCounter;
-            }
+            //    oldHistoryCounter = historyCounter;
+            //}
 
             Delegate del = new DELEGATE(WriteData);
             this.Invoke(del);
@@ -179,22 +179,21 @@ namespace EmbeddedSystemProject
         {
             try
             {
-                dataReader = null;
+                //dataReader = null;
 
                 MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT * FROM dataLog ORDER BY id DESC LIMIT 1", myConnection);
 
-                dataReader = mySqlCommandGetValues.ExecuteReader();
-
-                dataReader.Read();
-
-                Console.WriteLine(dataReader.GetFloat(2).ToString());
-                mTemp = dataReader.GetFloat(2);
-                mHumid = dataReader.GetFloat(3);
-
-                dataReader.Close();
+                using (dataReader = mySqlCommandGetValues.ExecuteReader())
+                {
+                    while (dataReader.Read())
+                    {
+                        Console.WriteLine(dataReader.GetFloat(2).ToString());
+                        mTemp = dataReader.GetFloat(2);
+                        mHumid = dataReader.GetFloat(3);
+                    }
+                }
 
                 mySqlCommandGetValues.Dispose();
-
 
             }
             catch (MySqlException)
@@ -218,164 +217,164 @@ namespace EmbeddedSystemProject
             return mTemp;
         }
 
-        public int getHistoryDataCounter()
-        {
-            try
-            {
-                dataReader = null;
+        //public int getHistoryDataCounter()
+        //{
+        //    try
+        //    {
+        //        //dataReader = null;
 
-                MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT MAX(id) FROM historyLog", myConnection);
+        //        MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT MAX(id) FROM historyLog", myConnection);
 
-                dataReader = mySqlCommandGetValues.ExecuteReader();
+        //        dataReader = mySqlCommandGetValues.ExecuteReader();
 
-                dataReader.Read();
+        //        dataReader.Read();
 
-                mCounter = dataReader.GetInt16(0);
+        //        mCounter = dataReader.GetInt16(0);
 
-                dataReader.Close();
-
-
-            }
-            catch (MySqlException)
-            {
-                Console.WriteLine("DataReader was not closed properly the first time");
-            }
-            finally
-            {
-                if (!dataReader.IsClosed) dataReader.Close();
-            }
-
-            return mCounter;
-
-        }
-
-        public float getHumidityHistoryMin(int givenIndex)
-        {
-            try
-            {
-                dataReader = null;
-
-                MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT humidity_min FROM historyLog WHERE id = @id", myConnection);
-                mySqlCommandGetValues.Parameters.AddWithValue("@id", givenIndex);
-
-                dataReader = mySqlCommandGetValues.ExecuteReader();
-
-                dataReader.Read();
-
-                mMinHumidity = dataReader.GetFloat(0);
-
-                dataReader.Close();
+        //        while (!dataReader.IsClosed) dataReader.Close();
 
 
-            }
-            catch (MySqlException)
-            {
-                Console.WriteLine("DataReader was not closed properly the first time");
-            }
-            finally
-            {
-                if (!dataReader.IsClosed) dataReader.Close();
-            }
+        //    }
+        //    catch (MySqlException ex)
+        //    {
+        //        Console.WriteLine(ex);
+        //    }
+        //    finally
+        //    {
+        //        if (!dataReader.IsClosed) dataReader.Close();
+        //    }
 
-            return mMinHumidity;
+        //    return mCounter;
 
-        }
+        //}
 
-        public float getHumidityHistoryMax(int givenIndex)
-        {
-            try
-            {
-                dataReader = null;
+        //public float getHumidityHistoryMin(int givenIndex)
+        //{
+        //    try
+        //    {
+        //        //dataReader = null;
 
-                MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT humidity_max FROM historyLog WHERE id = @id", myConnection);
-                mySqlCommandGetValues.Parameters.AddWithValue("@id", givenIndex);
+        //        MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT humidity_min FROM historyLog WHERE id = @id", myConnection);
+        //        mySqlCommandGetValues.Parameters.AddWithValue("@id", givenIndex);
 
-                dataReader = mySqlCommandGetValues.ExecuteReader();
+        //        dataReader = mySqlCommandGetValues.ExecuteReader();
 
-                dataReader.Read();
+        //        dataReader.Read();
 
-                mMaxHumidity = dataReader.GetFloat(0);
+        //        mMinHumidity = dataReader.GetFloat(0);
 
-                dataReader.Close();
-
-
-            }
-            catch (MySqlException)
-            {
-                Console.WriteLine("DataReader was not closed properly the first time");
-            }
-            finally
-            {
-                if (!dataReader.IsClosed) dataReader.Close();
-            }
-
-            return mMaxHumidity;
-
-        }
-
-        public float getTemperatureHistoryMin(int givenIndex)
-        {
-            try
-            {
-                dataReader = null;
-
-                MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT temperature_min FROM historyLog WHERE id = @id", myConnection);
-                mySqlCommandGetValues.Parameters.AddWithValue("@id", givenIndex);
-
-                dataReader = mySqlCommandGetValues.ExecuteReader();
-
-                dataReader.Read();
-
-                mMinTemp = dataReader.GetFloat(0);
-
-                dataReader.Close();
+        //        while (!dataReader.IsClosed) dataReader.Close();
 
 
-            }
-            catch (MySqlException)
-            {
-                Console.WriteLine("DataReader was not closed properly the first time");
-            }
-            finally
-            {
-                if (!dataReader.IsClosed) dataReader.Close();
-            }
+        //    }
+        //    catch (MySqlException)
+        //    {
+        //        Console.WriteLine("DataReader was not closed properly the first time");
+        //    }
+        //    finally
+        //    {
+        //        if (!dataReader.IsClosed) dataReader.Close();
+        //    }
 
-            return mMinTemp;
+        //    return mMinHumidity;
 
-        }
+        //}
 
-        public float getTemperatureHistoryMax(int givenIndex)
-        {
-            try
-            {
-                dataReader = null;
+        //public float getHumidityHistoryMax(int givenIndex)
+        //{
+        //    try
+        //    {
+        //        //dataReader = null;
 
-                MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT temperature_max FROM historyLog WHERE id = @id", myConnection);
-                mySqlCommandGetValues.Parameters.AddWithValue("@id", givenIndex);
+        //        MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT humidity_max FROM historyLog WHERE id = @id", myConnection);
+        //        mySqlCommandGetValues.Parameters.AddWithValue("@id", givenIndex);
 
-                dataReader = mySqlCommandGetValues.ExecuteReader();
+        //        dataReader = mySqlCommandGetValues.ExecuteReader();
 
-                dataReader.Read();
+        //        dataReader.Read();
 
-                mMaxTemp = dataReader.GetFloat(0);
+        //        mMaxHumidity = dataReader.GetFloat(0);
 
-                dataReader.Close();
+        //        while (!dataReader.IsClosed) dataReader.Close();
 
 
-            }
-            catch (MySqlException)
-            {
-                Console.WriteLine("DataReader was not closed properly the first time");
-            }
-            finally
-            {
-                if (!dataReader.IsClosed) dataReader.Close();
-            }
+        //    }
+        //    catch (MySqlException)
+        //    {
+        //        Console.WriteLine("DataReader was not closed properly the first time");
+        //    }
+        //    finally
+        //    {
+        //        if (!dataReader.IsClosed) dataReader.Close();
+        //    }
 
-            return mMaxTemp;
+        //    return mMaxHumidity;
 
-        }
+        //}
+
+        //public float getTemperatureHistoryMin(int givenIndex)
+        //{
+        //    try
+        //    {
+        //        //dataReader = null;
+
+        //        MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT temperature_min FROM historyLog WHERE id = @id", myConnection);
+        //        mySqlCommandGetValues.Parameters.AddWithValue("@id", givenIndex);
+
+        //        dataReader = mySqlCommandGetValues.ExecuteReader();
+
+        //        dataReader.Read();
+
+        //        mMinTemp = dataReader.GetFloat(0);
+
+        //        while (!dataReader.IsClosed) dataReader.Close();
+
+
+        //    }
+        //    catch (MySqlException)
+        //    {
+        //        Console.WriteLine("DataReader was not closed properly the first time");
+        //    }
+        //    finally
+        //    {
+        //        if (!dataReader.IsClosed) dataReader.Close();
+        //    }
+
+        //    return mMinTemp;
+
+        //}
+
+        //public float getTemperatureHistoryMax(int givenIndex)
+        //{
+        //    try
+        //    {
+        //        //dataReader = null;
+
+        //        MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT temperature_max FROM historyLog WHERE id = @id", myConnection);
+        //        mySqlCommandGetValues.Parameters.AddWithValue("@id", givenIndex);
+
+        //        dataReader = mySqlCommandGetValues.ExecuteReader();
+
+        //        dataReader.Read();
+
+        //        mMaxTemp = dataReader.GetFloat(0);
+
+        //        while (!dataReader.IsClosed) dataReader.Close();
+
+
+        //    }
+        //    catch (MySqlException)
+        //    {
+        //        Console.WriteLine("DataReader was not closed properly the first time");
+        //    }
+        //    finally
+        //    {
+        //        if (!dataReader.IsClosed) dataReader.Close();
+        //    }
+
+        //    return mMaxTemp;
+
+        //}
     }
 
 }
