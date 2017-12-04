@@ -59,7 +59,7 @@ namespace EmbeddedSystemProject
             
             oConnectDb.getLiveDataFromDb();
 
-            //historyCounter = oConnectDb.getHistoryDataCounter();
+            historyCounter = oConnectDb.getHistoryDataCounter();
 
             if (historyCounter > oldHistoryCounter)
             {
@@ -185,8 +185,6 @@ namespace EmbeddedSystemProject
         {
             try
             {
-                //dataReader = null;
-
                 MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT * FROM dataLog ORDER BY id DESC LIMIT 1", myConnection);
 
                 using (dataReader = mySqlCommandGetValues.ExecuteReader())
@@ -198,22 +196,12 @@ namespace EmbeddedSystemProject
                         mHumid = dataReader.GetFloat(3);
                     }
                 }
-
-                dataReader.Close();
-
-               // mySqlCommandGetValues.Dispose();
-
+                mySqlCommandGetValues.Dispose();
             }
             catch (MySqlException)
             {
                 Console.WriteLine("DataReader was not closed properly the first time");
             }
-            finally
-            {
-                // if (!dataReader.IsClosed) dataReader.Close();
-               
-            }
-
         }
 
         public float getHumidity()
@@ -228,34 +216,25 @@ namespace EmbeddedSystemProject
 
         public int getHistoryDataCounter()
         {
-            
+
             try
             {
-                dataReader = null;
+                MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT MAX(id) FROM historyLog", myConnection);
 
-        //        MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT MAX(id) FROM historyLog", myConnection);
-
-        //        dataReader = mySqlCommandGetValues.ExecuteReader();
-
-        //        dataReader.Read();
-
-        //        mCounter = dataReader.GetInt16(0);
-
-        //        while (!dataReader.IsClosed) dataReader.Close();
-
-
+                using (dataReader = mySqlCommandGetValues.ExecuteReader())
+                {
+                    while (dataReader.Read())
+                    {
+                        mCounter = dataReader.GetInt16(0);
+                    }
+                }
+                while (!dataReader.IsClosed) dataReader.Close();
             }
             catch (MySqlException)
             {
                 Console.WriteLine("DataReader was not closed properly the first time");
             }
-            finally
-            {
-               if (!dataReader.IsClosed) dataReader.Close();
-            }
-
-            //    return mCounter;
-
+            return mCounter;
         }
 
 
@@ -274,7 +253,7 @@ namespace EmbeddedSystemProject
                 //var date = DateTime.Parse("string");
                 //mDate = new DateTime();
                 s = dataReader.GetDateTime("date").ToShortDateString();
-                Console.WriteLine("joo "+ s);
+                Console.WriteLine("joo " + s);
 
                 dataReader.Close();
 
@@ -286,7 +265,7 @@ namespace EmbeddedSystemProject
             }
             finally
             {
-               // if (!dataReader.IsClosed) dataReader.Close();
+                // if (!dataReader.IsClosed) dataReader.Close();
             }
 
             return s;
@@ -319,32 +298,22 @@ namespace EmbeddedSystemProject
 
             try
             {
-                dataReader = null;
-
                 MySqlCommand mySqlCommandGetValues = new MySqlCommand(mySqlCommandString, myConnection);
                 mySqlCommandGetValues.Parameters.AddWithValue("@id", givenIndex);
 
-        //        dataReader = mySqlCommandGetValues.ExecuteReader();
-
-        //        dataReader.Read();
-
-                mHistoryValue = dataReader.GetFloat(0);
-
-        //        while (!dataReader.IsClosed) dataReader.Close();
-
-
-            }
-                    catch (MySqlException)
+                using (dataReader = mySqlCommandGetValues.ExecuteReader())
+                {
+                    while(dataReader.Read())
                     {
-                        Console.WriteLine("DataReader was not closed properly the first time");
+                        mHistoryValue = dataReader.GetFloat(0);
                     }
-                    //    finally
-                    //    {
-                    //        if (!dataReader.IsClosed) dataReader.Close();
-                    //    }
-
-                    return mHistoryValue;
-
+                }
+            }
+            catch (MySqlException)
+            {
+                Console.WriteLine("DataReader was not closed properly the first time");
+            }
+            return mHistoryValue;
         }
     }
 
