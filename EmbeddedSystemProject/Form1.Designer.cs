@@ -35,6 +35,7 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.labelTempTxt = new System.Windows.Forms.Label();
             this.labelHumidTxt = new System.Windows.Forms.Label();
             this.labelTempValue = new System.Windows.Forms.Label();
@@ -46,13 +47,13 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.chartLiveData = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chartHumHistory = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartLiveData)).BeginInit();
             this.tabPage3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartHumHistory)).BeginInit();
             this.SuspendLayout();
             // 
             // labelTempTxt
@@ -245,7 +246,7 @@
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.chart1);
+            this.tabPage3.Controls.Add(this.chartHumHistory);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -254,21 +255,25 @@
             this.tabPage3.Text = "tabPage3";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // chart1
+            // chartHumHistory
             // 
             chartArea2.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea2);
+            this.chartHumHistory.ChartAreas.Add(chartArea2);
             legend2.Name = "Legend1";
-            this.chart1.Legends.Add(legend2);
-            this.chart1.Location = new System.Drawing.Point(91, 19);
-            this.chart1.Name = "chart1";
+            this.chartHumHistory.Legends.Add(legend2);
+            this.chartHumHistory.Location = new System.Drawing.Point(91, 19);
+            this.chartHumHistory.Name = "chartHumHistory";
             series3.ChartArea = "ChartArea1";
             series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.chart1.Series.Add(series3);
-            this.chart1.Size = new System.Drawing.Size(580, 365);
-            this.chart1.TabIndex = 0;
-            this.chart1.Text = "chart1";
+            series3.Name = "Min Humidity";
+            series4.ChartArea = "ChartArea1";
+            series4.Legend = "Legend1";
+            series4.Name = "Max Humidity";
+            this.chartHumHistory.Series.Add(series3);
+            this.chartHumHistory.Series.Add(series4);
+            this.chartHumHistory.Size = new System.Drawing.Size(580, 365);
+            this.chartHumHistory.TabIndex = 0;
+            this.chartHumHistory.Text = "chart1";
             // 
             // Form1
             // 
@@ -285,7 +290,7 @@
             this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartLiveData)).EndInit();
             this.tabPage3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.chartHumHistory)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -302,7 +307,7 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartLiveData;
         private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartHumHistory;
     }
 }
 
