@@ -242,34 +242,23 @@ namespace EmbeddedSystemProject
         {
             try
             {
-                //dataReader = null;
-
                 MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT date FROM historyLog WHERE id = @id", myConnection);
                 mySqlCommandGetValues.Parameters.AddWithValue("@id", givenIndex);
-                dataReader = mySqlCommandGetValues.ExecuteReader();
 
-
-                dataReader.Read();
-                //var date = DateTime.Parse("string");
-                //mDate = new DateTime();
-                s = dataReader.GetDateTime("date").ToShortDateString();
-                Console.WriteLine("joo " + s);
-
-                dataReader.Close();
-
-
+                using (dataReader = mySqlCommandGetValues.ExecuteReader())
+                {
+                    while(dataReader.Read())
+                    {
+                        s = dataReader.GetDateTime("date").ToShortDateString();
+                        Console.WriteLine("joo " + s);
+                    }
+                }
             }
             catch (MySqlException)
             {
                 Console.WriteLine("DataReader was not closed properly the first time");
             }
-            finally
-            {
-                // if (!dataReader.IsClosed) dataReader.Close();
-            }
-
             return s;
-
         }
 
         public float getHistoryData(int givenIndex, string valueType)
