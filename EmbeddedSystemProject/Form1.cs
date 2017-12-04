@@ -44,7 +44,7 @@ namespace EmbeddedSystemProject
         {
             //connect to MySql-database
             oConnectDb.createDbConnection();
-           st = oConnectDb.getDate(0);
+            st = oConnectDb.getDate(0);
             Console.WriteLine("joo " + st);
             //tehdään timer 
             timer = new System.Timers.Timer(1000);
@@ -254,9 +254,9 @@ namespace EmbeddedSystemProject
                if (!dataReader.IsClosed) dataReader.Close();
             }
 
-        //    return mCounter;
+            //    return mCounter;
 
-        //}
+        }
 
 
         public string getDate(int givenIndex)
@@ -291,7 +291,7 @@ namespace EmbeddedSystemProject
 
             return s;
 
-        //}
+        }
 
         public float getHistoryData(int givenIndex, string valueType)
         {
@@ -333,19 +333,19 @@ namespace EmbeddedSystemProject
         //        while (!dataReader.IsClosed) dataReader.Close();
 
 
-        //    }
-        //    catch (MySqlException)
-        //    {
-        //        Console.WriteLine("DataReader was not closed properly the first time");
-        //    }
-        //    finally
-        //    {
-        //        if (!dataReader.IsClosed) dataReader.Close();
-        //    }
+            }
+                    catch (MySqlException)
+                    {
+                        Console.WriteLine("DataReader was not closed properly the first time");
+                    }
+                    //    finally
+                    //    {
+                    //        if (!dataReader.IsClosed) dataReader.Close();
+                    //    }
 
-            return mHistoryValue;
+                    return mHistoryValue;
 
-        //}
+        }
     }
 
 }
