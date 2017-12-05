@@ -22,8 +22,9 @@ namespace EmbeddedSystemProject
         private int historyCounter = 0;
         private int oldHistoryCounter = 0;
 
-        private DateTime date;// = new DateTime();
-        private string st;
+        private DateTime date;
+
+        List<DateTime> dateList = new List<DateTime>();
         List<float> minHumidList = new List<float>();
         List<float> maxHumidList = new List<float>();
         List<float> minTempList = new List<float>();
@@ -44,8 +45,7 @@ namespace EmbeddedSystemProject
         {
             //connect to MySql-database
             oConnectDb.createDbConnection();
-            st = oConnectDb.getDate(0);
-            Console.WriteLine("joo " + st);
+            
             //tehdään timer 
             timer = new System.Timers.Timer(1000);
             timer.Start();
@@ -64,7 +64,7 @@ namespace EmbeddedSystemProject
             if (historyCounter > oldHistoryCounter)
             {
                 //minimi kosteusarvot
-                for (int i = 1; i < historyCounter+1; i++)
+                for (int i = 1; i < historyCounter + 1; i++)
                 {
                     minHumidList.Add(oConnectDb.getHistoryData(i, "humidMin"));
                 }
@@ -87,14 +87,26 @@ namespace EmbeddedSystemProject
                     maxTempList.Add(oConnectDb.getHistoryData(i, "tempMax"));
                 }
 
-                foreach (float f in maxHumidList)
-                    chartHumHistory.Series["Max Humidity"].Points.AddY(f);
+                //päivämäärät
+                for (int i = 1; i < historyCounter + 1; i++)
+                {
+                    dateList.Add(oConnectDb.getDate(i));
+                }
 
-                foreach (float f in minHumidList)
-                    chartHumHistory.Series["Min Humidity"].Points.AddY(f);
+
+                for (int i = 0; i < dateList.Count; i++)
+                {
+                    chartHumHistory.Series["Max Humidity"].Points.AddXY(dateList[i], maxHumidList[i]);
+                    chartHumHistory.Series["Min Humidity"].Points.AddXY(dateList[i], minHumidList[i]);
+                }
 
                 oldHistoryCounter = historyCounter;
+
             }
+
+
+            Delegate dele = new DELEGATE(createCharts);
+            this.Invoke(dele);
 
             Delegate del = new DELEGATE(WriteData);
             this.Invoke(del);
@@ -129,6 +141,33 @@ namespace EmbeddedSystemProject
 
         }
 
+        private void createCharts()
+        {
+
+            if(maxHumidList[maxHumidList.Count-1]<fHumid)
+            {
+                maxHumidList.RemoveAt(maxHumidList.Count - 1);
+                maxHumidList.Add(oConnectDb.getHistoryData(historyCounter-1, "humidMax"));
+
+                chartHumHistory.Series["Max Humidity"].Points.Clear();
+                // chartHumHistory.ChartAreas.Clear();
+
+                for (int i = 0; i < dateList.Count; i++)
+                {
+                    chartHumHistory.Series["Max Humidity"].Points.AddXY(dateList[i], maxHumidList[i]);
+                    //chartHumHistory.Series["Min Humidity"].Points.AddXY(dateList[i], minHumidList[i]);
+                }
+            }
+
+
+            //for (int i = 0; i < dateList.Count; i++)
+            //{
+            //    chartHumHistory.Series["Max Humidity"].Points.AddXY(dateList[i], maxHumidList[i]);
+            //    chartHumHistory.Series["Min Humidity"].Points.AddXY(dateList[i], minHumidList[i]);
+            //}
+
+        }
+
 
     }
 
@@ -138,10 +177,8 @@ namespace EmbeddedSystemProject
         private float mHumid = 0;
         private float mTemp = 0;
 
-        private DateTime mDate;
-
         private int mCounter = 0;
-        private string s;
+        private DateTime md;
         private string mconnectionString;
         private string mySqlCommandString;
         private MySqlConnection myConnection;
@@ -238,7 +275,7 @@ namespace EmbeddedSystemProject
         }
 
 
-        public string getDate(int givenIndex)
+        public DateTime getDate(int givenIndex)
         {
             try
             {
@@ -249,8 +286,8 @@ namespace EmbeddedSystemProject
                 {
                     while(dataReader.Read())
                     {
-                        s = dataReader.GetDateTime("date").ToShortDateString();
-                        Console.WriteLine("joo " + s);
+                        md = dataReader.GetDateTime(0);
+                        
                     }
                 }
             }
@@ -258,7 +295,7 @@ namespace EmbeddedSystemProject
             {
                 Console.WriteLine("DataReader was not closed properly the first time");
             }
-            return s;
+            return md;
         }
 
         public float getHistoryData(int givenIndex, string valueType)
@@ -271,15 +308,15 @@ namespace EmbeddedSystemProject
                     break;
 
                 case "humidMin":
-                    mySqlCommandString = "SELECT temperature_min FROM historyLog WHERE id = @id";
+                    mySqlCommandString = "SELECT humidity_min FROM historyLog WHERE id = @id";
                     break;
 
                 case "tempMax":
-                    mySqlCommandString = "SELECT temperature_min FROM historyLog WHERE id = @id";
+                    mySqlCommandString = "SELECT temperature_max FROM historyLog WHERE id = @id";
                     break;
 
                 case "tempMin":
-                    mySqlCommandString = "SELECT temperature_max FROM historyLog WHERE id = @id";
+                    mySqlCommandString = "SELECT temperature_min FROM historyLog WHERE id = @id";
                     break;
 
             }

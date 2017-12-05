@@ -264,11 +264,15 @@
             this.chartHumHistory.Location = new System.Drawing.Point(91, 19);
             this.chartHumHistory.Name = "chartHumHistory";
             series3.ChartArea = "ChartArea1";
+            series3.IsXValueIndexed = true;
             series3.Legend = "Legend1";
             series3.Name = "Min Humidity";
+            series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             series4.ChartArea = "ChartArea1";
+            series4.IsXValueIndexed = true;
             series4.Legend = "Legend1";
             series4.Name = "Max Humidity";
+            series4.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             this.chartHumHistory.Series.Add(series3);
             this.chartHumHistory.Series.Add(series4);
             this.chartHumHistory.Size = new System.Drawing.Size(580, 365);
