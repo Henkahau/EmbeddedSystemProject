@@ -36,6 +36,10 @@
             System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.labelTempTxt = new System.Windows.Forms.Label();
             this.labelHumidTxt = new System.Windows.Forms.Label();
             this.labelTempValue = new System.Windows.Forms.Label();
@@ -48,12 +52,16 @@
             this.chartLiveData = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.chartHumHistory = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.chartTempHistory = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartLiveData)).BeginInit();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartHumHistory)).BeginInit();
+            this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chartTempHistory)).BeginInit();
             this.SuspendLayout();
             // 
             // labelTempTxt
@@ -103,6 +111,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Location = new System.Drawing.Point(13, 13);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -219,7 +228,7 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(709, 406);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "Live Chart";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // chartLiveData
@@ -227,6 +236,7 @@
             chartArea1.AxisY.Title = "Temperature °C, Humidity %";
             chartArea1.Name = "ChartArea1";
             this.chartLiveData.ChartAreas.Add(chartArea1);
+            this.chartLiveData.Cursor = System.Windows.Forms.Cursors.Default;
             legend1.Name = "Legend1";
             this.chartLiveData.Legends.Add(legend1);
             this.chartLiveData.Location = new System.Drawing.Point(6, 6);
@@ -252,7 +262,7 @@
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage3.Size = new System.Drawing.Size(709, 406);
             this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "tabPage3";
+            this.tabPage3.Text = "Humidity History Chart";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // chartHumHistory
@@ -261,19 +271,58 @@
             this.chartHumHistory.ChartAreas.Add(chartArea2);
             legend2.Name = "Legend1";
             this.chartHumHistory.Legends.Add(legend2);
-            this.chartHumHistory.Location = new System.Drawing.Point(91, 19);
+            this.chartHumHistory.Location = new System.Drawing.Point(82, 35);
             this.chartHumHistory.Name = "chartHumHistory";
             series3.ChartArea = "ChartArea1";
+            series3.IsXValueIndexed = true;
             series3.Legend = "Legend1";
             series3.Name = "Min Humidity";
+            series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             series4.ChartArea = "ChartArea1";
+            series4.IsXValueIndexed = true;
             series4.Legend = "Legend1";
             series4.Name = "Max Humidity";
+            series4.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             this.chartHumHistory.Series.Add(series3);
             this.chartHumHistory.Series.Add(series4);
             this.chartHumHistory.Size = new System.Drawing.Size(580, 365);
             this.chartHumHistory.TabIndex = 0;
             this.chartHumHistory.Text = "chart1";
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.chartTempHistory);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(709, 406);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Temperature History Chart";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // chartTempHistory
+            // 
+            chartArea3.Name = "ChartArea1";
+            this.chartTempHistory.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.chartTempHistory.Legends.Add(legend3);
+            this.chartTempHistory.Location = new System.Drawing.Point(64, 25);
+            this.chartTempHistory.Name = "chartTempHistory";
+            series5.ChartArea = "ChartArea1";
+            series5.IsXValueIndexed = true;
+            series5.Legend = "Legend1";
+            series5.Name = "Min Temperature";
+            series5.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+            series6.ChartArea = "ChartArea1";
+            series6.IsXValueIndexed = true;
+            series6.Legend = "Legend1";
+            series6.Name = "Max Temperature";
+            series6.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
+            this.chartTempHistory.Series.Add(series5);
+            this.chartTempHistory.Series.Add(series6);
+            this.chartTempHistory.Size = new System.Drawing.Size(605, 355);
+            this.chartTempHistory.TabIndex = 0;
+            this.chartTempHistory.Text = "chart1";
             // 
             // Form1
             // 
@@ -291,6 +340,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.chartLiveData)).EndInit();
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartHumHistory)).EndInit();
+            this.tabPage4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chartTempHistory)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -308,6 +359,8 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart chartLiveData;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartHumHistory;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chartTempHistory;
     }
 }
 
