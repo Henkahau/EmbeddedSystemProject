@@ -22,13 +22,11 @@ namespace EmbeddedSystemProject
         private int historyCounter = 0;
         private int oldHistoryCounter = 0;
 
-        private DateTime date;
-
-        List<DateTime> dateList = new List<DateTime>();
-        List<float> minHumidList = new List<float>();
-        List<float> maxHumidList = new List<float>();
-        List<float> minTempList = new List<float>();
-        List<float> maxTempList = new List<float>();
+        private List<DateTime> dateList = new List<DateTime>();
+        private List<float> minHumidList = new List<float>();
+        private List<float> maxHumidList = new List<float>();
+        private List<float> minTempList = new List<float>();
+        private List<float> maxTempList = new List<float>();
 
         private ConnectDb oConnectDb = new ConnectDb("server='192.168.137.54'; database=weatherLog; user=user; password = pass;");
 
@@ -66,31 +64,31 @@ namespace EmbeddedSystemProject
                 //minimi kosteusarvot
                 for (int i = 1; i < historyCounter + 1; i++)
                 {
-                    minHumidList.Add(oConnectDb.getHistoryData(i, "humidMin"));
+                    minHumidList.Add(oConnectDb.getHistoryDataFromDb(i, "humidMin"));
                 }
 
                 //maksimi kosteusarvot
                 for (int i = 1; i < historyCounter + 1; i++)
                 {
-                    maxHumidList.Add(oConnectDb.getHistoryData(i, "humidMax"));
+                    maxHumidList.Add(oConnectDb.getHistoryDataFromDb(i, "humidMax"));
                 }
 
                 //minimi lämpötila-arvot
                 for (int i = 1; i < historyCounter + 1; i++)
                 {
-                    minTempList.Add(oConnectDb.getHistoryData(i, "tempMin"));
+                    minTempList.Add(oConnectDb.getHistoryDataFromDb(i, "tempMin"));
                 }
 
                 //maksimi lämpötila-arvot
                 for (int i = 1; i < historyCounter + 1; i++)
                 {
-                    maxTempList.Add(oConnectDb.getHistoryData(i, "tempMax"));
+                    maxTempList.Add(oConnectDb.getHistoryDataFromDb(i, "tempMax"));
                 }
 
                 //päivämäärät
                 for (int i = 1; i < historyCounter + 1; i++)
                 {
-                    dateList.Add(oConnectDb.getDate(i));
+                    dateList.Add(oConnectDb.getDatesFromDb(i));
                 }
 
 
@@ -100,13 +98,16 @@ namespace EmbeddedSystemProject
                     chartHumHistory.Series["Min Humidity"].Points.AddXY(dateList[i], minHumidList[i]);
                 }
 
+                for(int i = 0; i < dateList.Count; i++)
+                {
+                    chartTempHistory.Series["Max Temperature"].Points.AddXY(dateList[i], maxTempList[i]);
+                    chartTempHistory.Series["Min Temperature"].Points.AddXY(dateList[i], minTempList[i]);
+                }
+
                 oldHistoryCounter = historyCounter;
 
             }
 
-
-            Delegate dele = new DELEGATE(createCharts);
-            this.Invoke(dele);
 
             Delegate del = new DELEGATE(WriteData);
             this.Invoke(del);
@@ -139,35 +140,73 @@ namespace EmbeddedSystemProject
             chartLiveData.Series["Humidity"].Points.AddY(fHumid);
             chartLiveData.ChartAreas["ChartArea1"].AxisX.ScaleView.Zoom(maxX -15, maxX);
 
-        }
 
-        private void createCharts()
-        {
-
-            if(maxHumidList[maxHumidList.Count-1]<fHumid)
+            //päivitetään historia kaavioiden maksimi- ja minimi arvojen muutokset
+            //..kosteusarvot
+            if (maxHumidList[maxHumidList.Count-1] < fHumid || minHumidList[minHumidList.Count - 1] > fHumid)
             {
-                maxHumidList.RemoveAt(maxHumidList.Count - 1);
-                maxHumidList.Add(oConnectDb.getHistoryData(historyCounter-1, "humidMax"));
-
-                chartHumHistory.Series["Max Humidity"].Points.Clear();
-                // chartHumHistory.ChartAreas.Clear();
-
-                for (int i = 0; i < dateList.Count; i++)
+                if(maxHumidList[maxHumidList.Count - 1] < fHumid)
                 {
-                    chartHumHistory.Series["Max Humidity"].Points.AddXY(dateList[i], maxHumidList[i]);
-                    //chartHumHistory.Series["Min Humidity"].Points.AddXY(dateList[i], minHumidList[i]);
+                    maxHumidList.RemoveAt(maxHumidList.Count - 1);
+                    maxHumidList.Add(oConnectDb.getHistoryDataFromDb(historyCounter, "humidMax"));
+
+                    chartHumHistory.Series["Max Humidity"].Points.Clear();
+
+                    for (int i = 0; i < dateList.Count; i++)
+                    {
+                        chartHumHistory.Series["Max Humidity"].Points.AddXY(dateList[i], maxHumidList[i]);
+                    }
                 }
+
+                if(minHumidList[minHumidList.Count - 1] > fHumid)
+                {
+                    minHumidList.RemoveAt(minHumidList.Count - 1);
+                    minHumidList.Add(oConnectDb.getHistoryDataFromDb(historyCounter, "humidMin"));
+
+                    chartHumHistory.Series["Min Humidity"].Points.Clear();
+
+                    for (int i = 0; i < dateList.Count; i++)
+                    {
+                        chartHumHistory.Series["Min Humidity"].Points.AddXY(dateList[i], minHumidList[i]);
+                    }
+                }
+
+         
+            }
+            
+            //..lämpötila-arvot
+            if (maxTempList[maxTempList.Count - 1] < fTemp || minTempList[minTempList.Count-1] > fTemp)
+            {
+                if(maxTempList[maxTempList.Count - 1] < fTemp)
+                {
+                    maxTempList.RemoveAt(maxTempList.Count - 1);
+                    maxTempList.Add(oConnectDb.getHistoryDataFromDb(historyCounter, "tempMax"));
+
+                    chartTempHistory.Series["Max Temperature"].Points.Clear();
+
+                    for (int i = 0; i < dateList.Count; i++)
+                    {
+                        chartTempHistory.Series["Max Temperature"].Points.AddXY(dateList[i], maxHumidList[i]);
+
+                    }
+                }
+
+                if(minTempList[minTempList.Count - 1] > fTemp)
+                {
+                    minTempList.RemoveAt(minTempList.Count - 1);
+                    minTempList.Add(oConnectDb.getHistoryDataFromDb(historyCounter, "tempMin"));
+
+                    chartTempHistory.Series["Min Temperature"].Points.Clear();
+
+                    for (int i = 0; i < dateList.Count; i++)
+                    {
+                        chartTempHistory.Series["Min Temperature"].Points.AddXY(dateList[i], minHumidList[i]);
+                    }
+                }
+         
             }
 
-
-            //for (int i = 0; i < dateList.Count; i++)
-            //{
-            //    chartHumHistory.Series["Max Humidity"].Points.AddXY(dateList[i], maxHumidList[i]);
-            //    chartHumHistory.Series["Min Humidity"].Points.AddXY(dateList[i], minHumidList[i]);
-            //}
-
         }
-
 
     }
 
@@ -178,7 +217,8 @@ namespace EmbeddedSystemProject
         private float mTemp = 0;
 
         private int mCounter = 0;
-        private DateTime md;
+        private DateTime mDate;
+
         private string mconnectionString;
         private string mySqlCommandString;
         private MySqlConnection myConnection;
@@ -274,8 +314,7 @@ namespace EmbeddedSystemProject
             return mCounter;
         }
 
-
-        public DateTime getDate(int givenIndex)
+        public DateTime getDatesFromDb(int givenIndex)
         {
             try
             {
@@ -286,7 +325,7 @@ namespace EmbeddedSystemProject
                 {
                     while(dataReader.Read())
                     {
-                        md = dataReader.GetDateTime(0);
+                        mDate = dataReader.GetDateTime(0);
                         
                     }
                 }
@@ -295,10 +334,10 @@ namespace EmbeddedSystemProject
             {
                 Console.WriteLine("DataReader was not closed properly the first time");
             }
-            return md;
+            return mDate;
         }
 
-        public float getHistoryData(int givenIndex, string valueType)
+        public float getHistoryDataFromDb(int givenIndex, string valueType)
         {
             
             switch(valueType)
@@ -341,6 +380,7 @@ namespace EmbeddedSystemProject
             }
             return mHistoryValue;
         }
+
     }
 
 }
