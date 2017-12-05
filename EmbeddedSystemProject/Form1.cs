@@ -22,12 +22,11 @@ namespace EmbeddedSystemProject
         private int historyCounter = 0;
         private int oldHistoryCounter = 0;
 
-        AxisScrollBar scrollBar = new AxisScrollBar();
-
-        List<float> minHumidList = new List<float>();
-        List<float> maxHumidList = new List<float>();
-        List<float> minTempList = new List<float>();
-        List<float> maxTempList = new List<float>();
+        private List<DateTime> dateList = new List<DateTime>();
+        private List<float> minHumidList = new List<float>();
+        private List<float> maxHumidList = new List<float>();
+        private List<float> minTempList = new List<float>();
+        private List<float> maxTempList = new List<float>();
 
         private ConnectDb oConnectDb = new ConnectDb("server='192.168.137.54'; database=weatherLog; user=user; password = pass;");
 
@@ -44,7 +43,7 @@ namespace EmbeddedSystemProject
         {
             //connect to MySql-database
             oConnectDb.createDbConnection();
-
+            
             //tehdään timer 
             timer = new System.Timers.Timer(1000);
             timer.Start();
@@ -63,31 +62,52 @@ namespace EmbeddedSystemProject
             if (historyCounter > oldHistoryCounter)
             {
                 //minimi kosteusarvot
-                for (int i = 1; i < historyCounter+1; i++)
+                for (int i = 1; i < historyCounter + 1; i++)
                 {
-                    minHumidList.Add(oConnectDb.getHumidityHistoryMin(i));
+                    minHumidList.Add(oConnectDb.getHistoryDataFromDb(i, "humidMin"));
                 }
 
                 //maksimi kosteusarvot
                 for (int i = 1; i < historyCounter + 1; i++)
                 {
-                    maxHumidList.Add(oConnectDb.getHumidityHistoryMax(i));
+                    maxHumidList.Add(oConnectDb.getHistoryDataFromDb(i, "humidMax"));
                 }
 
                 //minimi lämpötila-arvot
                 for (int i = 1; i < historyCounter + 1; i++)
                 {
-                    minTempList.Add(oConnectDb.getTemperatureHistoryMin(i));
+                    minTempList.Add(oConnectDb.getHistoryDataFromDb(i, "tempMin"));
                 }
 
                 //maksimi lämpötila-arvot
                 for (int i = 1; i < historyCounter + 1; i++)
                 {
-                    maxTempList.Add(oConnectDb.getTemperatureHistoryMax(i));
+                    maxTempList.Add(oConnectDb.getHistoryDataFromDb(i, "tempMax"));
+                }
+
+                //päivämäärät
+                for (int i = 1; i < historyCounter + 1; i++)
+                {
+                    dateList.Add(oConnectDb.getDatesFromDb(i));
+                }
+
+
+                for (int i = 0; i < dateList.Count; i++)
+                {
+                    chartHumHistory.Series["Max Humidity"].Points.AddXY(dateList[i], maxHumidList[i]);
+                    chartHumHistory.Series["Min Humidity"].Points.AddXY(dateList[i], minHumidList[i]);
+                }
+
+                for(int i = 0; i < dateList.Count; i++)
+                {
+                    chartTempHistory.Series["Max Temperature"].Points.AddXY(dateList[i], maxTempList[i]);
+                    chartTempHistory.Series["Min Temperature"].Points.AddXY(dateList[i], minTempList[i]);
                 }
 
                 oldHistoryCounter = historyCounter;
+
             }
+
 
             Delegate del = new DELEGATE(WriteData);
             this.Invoke(del);
@@ -120,27 +140,97 @@ namespace EmbeddedSystemProject
             chartLiveData.Series["Humidity"].Points.AddY(fHumid);
             chartLiveData.ChartAreas["ChartArea1"].AxisX.ScaleView.Zoom(maxX -15, maxX);
 
+            //historiakaavioiden y-akselin otsikot
+            chartHumHistory.ChartAreas["ChartArea1"].AxisY.Title = "Humidity %";
+            chartTempHistory.ChartAreas["ChartArea1"].AxisY.Title = "Temperature °C";
+
+            //päivitetään historia kaavioiden maksimi- ja minimi arvojen muutokset
+            //..kosteusarvot
+            if (maxHumidList[maxHumidList.Count-1] < fHumid || minHumidList[minHumidList.Count - 1] > fHumid)
+            {
+                if(maxHumidList[maxHumidList.Count - 1] < fHumid)
+                {
+                    maxHumidList.RemoveAt(maxHumidList.Count - 1);
+                    maxHumidList.Add(oConnectDb.getHistoryDataFromDb(historyCounter, "humidMax"));
+
+                    chartHumHistory.Series["Max Humidity"].Points.Clear();
+
+                    for (int i = 0; i < dateList.Count; i++)
+                    {
+                        chartHumHistory.Series["Max Humidity"].Points.AddXY(dateList[i], maxHumidList[i]);
+                    }
+                }
+
+                if(minHumidList[minHumidList.Count - 1] > fHumid)
+                {
+                    minHumidList.RemoveAt(minHumidList.Count - 1);
+                    minHumidList.Add(oConnectDb.getHistoryDataFromDb(historyCounter, "humidMin"));
+
+                    chartHumHistory.Series["Min Humidity"].Points.Clear();
+
+                    for (int i = 0; i < dateList.Count; i++)
+                    {
+                        chartHumHistory.Series["Min Humidity"].Points.AddXY(dateList[i], minHumidList[i]);
+                    }
+                }
+
+         
+            }
+            
+            //..lämpötila-arvot
+            if (maxTempList[maxTempList.Count - 1] < fTemp || minTempList[minTempList.Count-1] > fTemp)
+            {
+                if(maxTempList[maxTempList.Count - 1] < fTemp)
+                {
+                    maxTempList.RemoveAt(maxTempList.Count - 1);
+                    maxTempList.Add(oConnectDb.getHistoryDataFromDb(historyCounter, "tempMax"));
+
+                    chartTempHistory.Series["Max Temperature"].Points.Clear();
+
+                    for (int i = 0; i < dateList.Count; i++)
+                    {
+                        chartTempHistory.Series["Max Temperature"].Points.AddXY(dateList[i], maxHumidList[i]);
+
+                    }
+                }
+
+                if(minTempList[minTempList.Count - 1] > fTemp)
+                {
+                    minTempList.RemoveAt(minTempList.Count - 1);
+                    minTempList.Add(oConnectDb.getHistoryDataFromDb(historyCounter, "tempMin"));
+
+                    chartTempHistory.Series["Min Temperature"].Points.Clear();
+
+                    for (int i = 0; i < dateList.Count; i++)
+                    {
+                        chartTempHistory.Series["Min Temperature"].Points.AddXY(dateList[i], minHumidList[i]);
+                    }
+                }
+         
+            }
 
         }
 
+        private void chartHumHistory_Click(object sender, EventArgs e)
+        {
 
+        }
     }
 
     public class ConnectDb
     {
-        private float mMinHumidity = 0;
-        private float mMaxHumidity = 0;
-        private float mMinTemp = 0;
-        private float mMaxTemp = 0;
+        private float mHistoryValue = 0;
         private float mHumid = 0;
         private float mTemp = 0;
 
         private int mCounter = 0;
- 
-        private string mconnectionString;
+        private DateTime mDate;
 
+        private string mconnectionString;
+        private string mySqlCommandString;
         private MySqlConnection myConnection;
         private MySqlDataReader dataReader;
+      
 
         public ConnectDb(string givenConnection)
         {
@@ -179,33 +269,23 @@ namespace EmbeddedSystemProject
         {
             try
             {
-                dataReader = null;
-
                 MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT * FROM dataLog ORDER BY id DESC LIMIT 1", myConnection);
 
-                dataReader = mySqlCommandGetValues.ExecuteReader();
-
-                dataReader.Read();
-
-                Console.WriteLine(dataReader.GetFloat(2).ToString());
-                mTemp = dataReader.GetFloat(2);
-                mHumid = dataReader.GetFloat(3);
-
-                dataReader.Close();
-
+                using (dataReader = mySqlCommandGetValues.ExecuteReader())
+                {
+                    while (dataReader.Read())
+                    {
+                        Console.WriteLine(dataReader.GetFloat(2).ToString());
+                        mTemp = dataReader.GetFloat(2);
+                        mHumid = dataReader.GetFloat(3);
+                    }
+                }
                 mySqlCommandGetValues.Dispose();
-
-
             }
             catch (MySqlException)
             {
                 Console.WriteLine("DataReader was not closed properly the first time");
             }
-            finally
-            {
-                if (!dataReader.IsClosed) dataReader.Close();
-            }
-
         }
 
         public float getHumidity()
@@ -220,162 +300,94 @@ namespace EmbeddedSystemProject
 
         public int getHistoryDataCounter()
         {
+
             try
             {
-                dataReader = null;
-
                 MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT MAX(id) FROM historyLog", myConnection);
 
-                dataReader = mySqlCommandGetValues.ExecuteReader();
-
-                dataReader.Read();
-
-                mCounter = dataReader.GetInt16(0);
-
-                dataReader.Close();
-
-
+                using (dataReader = mySqlCommandGetValues.ExecuteReader())
+                {
+                    while (dataReader.Read())
+                    {
+                        mCounter = dataReader.GetInt16(0);
+                    }
+                }
+                while (!dataReader.IsClosed) dataReader.Close();
             }
             catch (MySqlException)
             {
                 Console.WriteLine("DataReader was not closed properly the first time");
             }
-            finally
-            {
-                if (!dataReader.IsClosed) dataReader.Close();
-            }
-
             return mCounter;
-
         }
 
-        public float getHumidityHistoryMin(int givenIndex)
+        public DateTime getDatesFromDb(int givenIndex)
         {
             try
             {
-                dataReader = null;
-
-                MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT humidity_min FROM historyLog WHERE id = @id", myConnection);
+                MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT date FROM historyLog WHERE id = @id", myConnection);
                 mySqlCommandGetValues.Parameters.AddWithValue("@id", givenIndex);
 
-                dataReader = mySqlCommandGetValues.ExecuteReader();
-
-                dataReader.Read();
-
-                mMinHumidity = dataReader.GetFloat(0);
-
-                dataReader.Close();
-
-
+                using (dataReader = mySqlCommandGetValues.ExecuteReader())
+                {
+                    while(dataReader.Read())
+                    {
+                        mDate = dataReader.GetDateTime(0);
+                        
+                    }
+                }
             }
             catch (MySqlException)
             {
                 Console.WriteLine("DataReader was not closed properly the first time");
             }
-            finally
-            {
-                if (!dataReader.IsClosed) dataReader.Close();
-            }
-
-            return mMinHumidity;
-
+            return mDate;
         }
 
-        public float getHumidityHistoryMax(int givenIndex)
+        public float getHistoryDataFromDb(int givenIndex, string valueType)
         {
+            
+            switch(valueType)
+            {
+                case "humidMax":
+                    mySqlCommandString = "SELECT humidity_max FROM historyLog WHERE id = @id";
+                    break;
+
+                case "humidMin":
+                    mySqlCommandString = "SELECT humidity_min FROM historyLog WHERE id = @id";
+                    break;
+
+                case "tempMax":
+                    mySqlCommandString = "SELECT temperature_max FROM historyLog WHERE id = @id";
+                    break;
+
+                case "tempMin":
+                    mySqlCommandString = "SELECT temperature_min FROM historyLog WHERE id = @id";
+                    break;
+
+            }
+
+
             try
             {
-                dataReader = null;
-
-                MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT humidity_max FROM historyLog WHERE id = @id", myConnection);
+                MySqlCommand mySqlCommandGetValues = new MySqlCommand(mySqlCommandString, myConnection);
                 mySqlCommandGetValues.Parameters.AddWithValue("@id", givenIndex);
 
-                dataReader = mySqlCommandGetValues.ExecuteReader();
-
-                dataReader.Read();
-
-                mMaxHumidity = dataReader.GetFloat(0);
-
-                dataReader.Close();
-
-
+                using (dataReader = mySqlCommandGetValues.ExecuteReader())
+                {
+                    while(dataReader.Read())
+                    {
+                        mHistoryValue = dataReader.GetFloat(0);
+                    }
+                }
             }
             catch (MySqlException)
             {
                 Console.WriteLine("DataReader was not closed properly the first time");
             }
-            finally
-            {
-                if (!dataReader.IsClosed) dataReader.Close();
-            }
-
-            return mMaxHumidity;
-
+            return mHistoryValue;
         }
 
-        public float getTemperatureHistoryMin(int givenIndex)
-        {
-            try
-            {
-                dataReader = null;
-
-                MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT temperature_min FROM historyLog WHERE id = @id", myConnection);
-                mySqlCommandGetValues.Parameters.AddWithValue("@id", givenIndex);
-
-                dataReader = mySqlCommandGetValues.ExecuteReader();
-
-                dataReader.Read();
-
-                mMinTemp = dataReader.GetFloat(0);
-
-                dataReader.Close();
-
-
-            }
-            catch (MySqlException)
-            {
-                Console.WriteLine("DataReader was not closed properly the first time");
-            }
-            finally
-            {
-                if (!dataReader.IsClosed) dataReader.Close();
-            }
-
-            return mMinTemp;
-
-        }
-
-        public float getTemperatureHistoryMax(int givenIndex)
-        {
-            try
-            {
-                dataReader = null;
-
-                MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT temperature_max FROM historyLog WHERE id = @id", myConnection);
-                mySqlCommandGetValues.Parameters.AddWithValue("@id", givenIndex);
-
-                dataReader = mySqlCommandGetValues.ExecuteReader();
-
-                dataReader.Read();
-
-                mMaxTemp = dataReader.GetFloat(0);
-
-                dataReader.Close();
-
-
-            }
-            catch (MySqlException)
-            {
-                Console.WriteLine("DataReader was not closed properly the first time");
-            }
-            finally
-            {
-                if (!dataReader.IsClosed) dataReader.Close();
-            }
-
-            return mMaxTemp;
-
-        }
     }
 
 }
