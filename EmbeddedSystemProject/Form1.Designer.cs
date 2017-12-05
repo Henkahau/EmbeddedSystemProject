@@ -274,13 +274,11 @@
             this.chartHumHistory.Location = new System.Drawing.Point(82, 35);
             this.chartHumHistory.Name = "chartHumHistory";
             series3.ChartArea = "ChartArea1";
-            series3.IsValueShownAsLabel = true;
             series3.IsXValueIndexed = true;
             series3.Legend = "Legend1";
             series3.Name = "Min Humidity";
             series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.DateTime;
             series4.ChartArea = "ChartArea1";
-            series4.IsValueShownAsLabel = true;
             series4.IsXValueIndexed = true;
             series4.Legend = "Legend1";
             series4.Name = "Max Humidity";
