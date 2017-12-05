@@ -140,6 +140,9 @@ namespace EmbeddedSystemProject
             chartLiveData.Series["Humidity"].Points.AddY(fHumid);
             chartLiveData.ChartAreas["ChartArea1"].AxisX.ScaleView.Zoom(maxX -15, maxX);
 
+            //historiakaavioiden y-akselin otsikot
+            chartHumHistory.ChartAreas["ChartArea1"].AxisY.Title = "Humidity %";
+            chartTempHistory.ChartAreas["ChartArea1"].AxisY.Title = "Temperature °C";
 
             //päivitetään historia kaavioiden maksimi- ja minimi arvojen muutokset
             //..kosteusarvot
@@ -208,6 +211,10 @@ namespace EmbeddedSystemProject
 
         }
 
+        private void chartHumHistory_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
     public class ConnectDb
