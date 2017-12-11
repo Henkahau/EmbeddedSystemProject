@@ -42,18 +42,18 @@ namespace EmbeddedSystemProject
         private void Form1_Load(object sender, EventArgs e)
         {
             //connect to MySql-database
-            //oConnectDb.createDbConnection();
+            oConnectDb.createDbConnection();
 
             this.Size = new Size(1220, 670);
             this.StartPosition = FormStartPosition.CenterScreen;
 
             aGaugeHumid.MaximumSize = new Size(600, 600);
             aGaugeTemp.MaximumSize  = new Size(600, 600);
-            
-            //tehdään timer 
-            //timer = new System.Timers.Timer(1000);
-            //timer.Start();
-            //timer.Elapsed += readDataFromDb;
+
+            //tehdään timer
+            timer = new System.Timers.Timer(1000);
+            timer.Start();
+            timer.Elapsed += readDataFromDb;
         }
         private void Form1_Resize(object sender, EventArgs e)
         {
