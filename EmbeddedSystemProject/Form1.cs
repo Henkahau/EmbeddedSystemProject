@@ -36,21 +36,41 @@ namespace EmbeddedSystemProject
 
         public Form1()
         {
-            InitializeComponent();     
+            InitializeComponent();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             //connect to MySql-database
-            oConnectDb.createDbConnection();
+            //oConnectDb.createDbConnection();
+
+            this.Size = new Size(1220, 670);
+            this.StartPosition = FormStartPosition.CenterScreen;
+
+            aGaugeHumid.MaximumSize = new Size(600, 600);
+            aGaugeTemp.MaximumSize  = new Size(600, 600);
             
             //tehdään timer 
-            timer = new System.Timers.Timer(1000);
-            timer.Start();
-            timer.Elapsed += readDataFromDb;
-
+            //timer = new System.Timers.Timer(1000);
+            //timer.Start();
+            //timer.Elapsed += readDataFromDb;
         }
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            // Tabit pysyvät formin kokomuutosten mukana
+            tabControl1.Dock = DockStyle.Fill;
 
+            // Kuvat skaalaavat näin controllin mukaan,
+            // Pidetään controlli dockattuna laidassa ja
+            // center määrää viisarin olinpaikan controllin verrattuna (ei formin)
+            aGaugeTemp.BackgroundImageLayout = ImageLayout.Stretch;
+            aGaugeTemp.Dock = DockStyle.Left;
+            aGaugeTemp.Center = new Point(290, 530);
+            
+            aGaugeHumid.BackgroundImageLayout = ImageLayout.Stretch;
+            aGaugeHumid.Dock = DockStyle.Right;
+            aGaugeHumid.Center = new Point(310, 530);
+        }
 
         private void readDataFromDb(object source, ElapsedEventArgs e)
         {
@@ -103,15 +123,10 @@ namespace EmbeddedSystemProject
                     chartTempHistory.Series["Max Temperature"].Points.AddXY(dateList[i], maxTempList[i]);
                     chartTempHistory.Series["Min Temperature"].Points.AddXY(dateList[i], minTempList[i]);
                 }
-
                 oldHistoryCounter = historyCounter;
-
             }
-
-
             Delegate del = new DELEGATE(WriteData);
             this.Invoke(del);
-
         }
 
         private void WriteData()
@@ -143,9 +158,9 @@ namespace EmbeddedSystemProject
 
             //päivitetään historia kaavioiden maksimi- ja minimi arvojen muutokset
             //..kosteusarvot
-            if (maxHumidList[maxHumidList.Count-1] < fHumid || minHumidList[minHumidList.Count - 1] > fHumid)
+            if (maxHumidList[maxHumidList.Count - 1] < fHumid || minHumidList[minHumidList.Count - 1] > fHumid)
             {
-                if(maxHumidList[maxHumidList.Count - 1] < fHumid)
+                if (maxHumidList[maxHumidList.Count - 1] < fHumid)
                 {
                     maxHumidList.RemoveAt(maxHumidList.Count - 1);
                     maxHumidList.Add(oConnectDb.getHistoryDataFromDb(historyCounter, "humidMax"));
@@ -158,7 +173,7 @@ namespace EmbeddedSystemProject
                     }
                 }
 
-                if(minHumidList[minHumidList.Count - 1] > fHumid)
+                if (minHumidList[minHumidList.Count - 1] > fHumid)
                 {
                     minHumidList.RemoveAt(minHumidList.Count - 1);
                     minHumidList.Add(oConnectDb.getHistoryDataFromDb(historyCounter, "humidMin"));
@@ -171,13 +186,13 @@ namespace EmbeddedSystemProject
                     }
                 }
 
-         
+
             }
-            
+
             //..lämpötila-arvot
-            if (maxTempList[maxTempList.Count - 1] < fTemp || minTempList[minTempList.Count-1] > fTemp)
+            if (maxTempList[maxTempList.Count - 1] < fTemp || minTempList[minTempList.Count - 1] > fTemp)
             {
-                if(maxTempList[maxTempList.Count - 1] < fTemp)
+                if (maxTempList[maxTempList.Count - 1] < fTemp)
                 {
                     maxTempList.RemoveAt(maxTempList.Count - 1);
                     maxTempList.Add(oConnectDb.getHistoryDataFromDb(historyCounter, "tempMax"));
@@ -191,7 +206,7 @@ namespace EmbeddedSystemProject
                     }
                 }
 
-                if(minTempList[minTempList.Count - 1] > fTemp)
+                if (minTempList[minTempList.Count - 1] > fTemp)
                 {
                     minTempList.RemoveAt(minTempList.Count - 1);
                     minTempList.Add(oConnectDb.getHistoryDataFromDb(historyCounter, "tempMin"));
@@ -203,11 +218,28 @@ namespace EmbeddedSystemProject
                         chartTempHistory.Series["Min Temperature"].Points.AddXY(dateList[i], minHumidList[i]);
                     }
                 }
-         
-            }
 
+            }
         }
 
+        // Pidetään näin siltsut neliöinä
+        private void aGaugeHumid_SizeChanged(object sender, EventArgs e)
+        {
+            aGaugeHumid.Width = aGaugeHumid.Height;
+        }
+        private void aGaugeTemp_SizeChanged(object sender, EventArgs e)
+        {
+            aGaugeTemp.Width = aGaugeTemp.Height;
+        }
+
+        private void tabControl1_Click(object sender, EventArgs e)
+        {
+            if (tabControl1.SelectedTab == tabPage1)
+                this.Size = new Size(1220, 670);
+
+            // Tänne voi tehdä halutessaan ominaisuuden, jotta ikkuna pienenee muissa näkymissä.
+            // Sitten täytyy ratkaista miksi humid-siltsu ei asetu aloilleen
+        }
     }
 
     public class ConnectDb
@@ -293,7 +325,6 @@ namespace EmbeddedSystemProject
 
         public int getHistoryDataCounter()
         {
-
             try
             {
                 MySqlCommand mySqlCommandGetValues = new MySqlCommand("SELECT MAX(id) FROM historyLog", myConnection);
@@ -305,7 +336,7 @@ namespace EmbeddedSystemProject
                         mCounter = dataReader.GetInt16(0);
                     }
                 }
-                while (!dataReader.IsClosed) dataReader.Close();
+                while (!dataReader.IsClosed) dataReader.Close(); // ONKO TÄMÄ TARPEELLINEN?
             }
             catch (MySqlException)
             {
@@ -323,10 +354,9 @@ namespace EmbeddedSystemProject
 
                 using (dataReader = mySqlCommandGetValues.ExecuteReader())
                 {
-                    while(dataReader.Read())
+                    while (dataReader.Read())
                     {
                         mDate = dataReader.GetDateTime(0);
-                        
                     }
                 }
             }
@@ -338,8 +368,7 @@ namespace EmbeddedSystemProject
         }
 
         public float getHistoryDataFromDb(int givenIndex, string valueType)
-        {
-            
+        { 
             switch(valueType)
             {
                 case "humidMax":
@@ -357,9 +386,7 @@ namespace EmbeddedSystemProject
                 case "tempMin":
                     mySqlCommandString = "SELECT temperature_min FROM historyLog WHERE id = @id";
                     break;
-
             }
-
 
             try
             {
@@ -368,7 +395,7 @@ namespace EmbeddedSystemProject
 
                 using (dataReader = mySqlCommandGetValues.ExecuteReader())
                 {
-                    while(dataReader.Read())
+                    while (dataReader.Read())
                     {
                         mHistoryValue = dataReader.GetFloat(0);
                     }
@@ -380,7 +407,5 @@ namespace EmbeddedSystemProject
             }
             return mHistoryValue;
         }
-
     }
-
 }
