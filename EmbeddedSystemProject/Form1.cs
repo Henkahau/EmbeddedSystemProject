@@ -31,6 +31,8 @@ namespace EmbeddedSystemProject
         private ConnectDb oConnectDb = new ConnectDb("server='192.168.137.54'; database=weatherLog; user=user; password = pass;");
 
         private System.Timers.Timer timer;
+        System.Media.SoundPlayer player;
+        private bool jariSang = false;
 
         private delegate void DELEGATE();
 
@@ -146,7 +148,14 @@ namespace EmbeddedSystemProject
            
             aGaugeHumid.Value = fHumid;
             labelHumidValue.Text = fHumid.ToString()+" "+"%";
-            
+
+            // Siltsu Bitch
+            if (fTemp > 25 && jariSang == false)
+            {
+                player = new System.Media.SoundPlayer(EmbeddedSystemProject.Properties.Resources.Ei_ikina_enaa_fade);
+                player.Play();
+                jariSang = true;
+            }
 
             //live data kaavio
             //määritellään scrollbarit

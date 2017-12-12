@@ -90,6 +90,7 @@
   <ItemGroup>
     <Content Include="Properties\Siltsu.png" />
     <Content Include="Properties\SiltsuRotate.png" />
+    <None Include="Resources\Ei_ikina_enaa_fade.wav" />
     <None Include="Resources\Background.png" />
     <None Include="Resources\transparent.png" />
     <None Include="Resources\SiltsuRotate.png" />
