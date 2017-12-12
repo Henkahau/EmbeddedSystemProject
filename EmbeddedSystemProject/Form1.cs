@@ -44,7 +44,7 @@ namespace EmbeddedSystemProject
             //connect to MySql-database
             oConnectDb.createDbConnection();
 
-            this.Size = new Size(1220, 670);
+            this.Size = new Size(1220, 700);
             this.StartPosition = FormStartPosition.CenterScreen;
 
             aGaugeHumid.MaximumSize = new Size(600, 600);
@@ -235,7 +235,7 @@ namespace EmbeddedSystemProject
         private void tabControl1_Click(object sender, EventArgs e)
         {
             if (tabControl1.SelectedTab == tabPage1)
-                this.Size = new Size(1220, 670);
+                this.Size = new Size(1220, 700);
 
             // Tänne voi tehdä halutessaan ominaisuuden, jotta ikkuna pienenee muissa näkymissä.
             // Sitten täytyy ratkaista miksi humid-siltsu ei asetu aloilleen
@@ -336,7 +336,7 @@ namespace EmbeddedSystemProject
                         mCounter = dataReader.GetInt16(0);
                     }
                 }
-                while (!dataReader.IsClosed) dataReader.Close(); // ONKO TÄMÄ TARPEELLINEN?
+                //while (!dataReader.IsClosed) dataReader.Close(); // ONKO TÄMÄ TARPEELLINEN?
             }
             catch (MySqlException)
             {
