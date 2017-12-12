@@ -4,7 +4,6 @@
 
 const int pwm = 5;
 const int aIn = A0;
-const float tempIn = 7;
 
 boolean firstValReaded = false;
 
@@ -20,7 +19,7 @@ DallasTemperature sensors(&oneWire);
 
 float arvo = 0;
 int maxval = 0;
-float kosteus;
+float kosteus = 0;
 
 void setup() {
   // put your setup code here, to run once:
@@ -34,7 +33,6 @@ void loop() {
   // put your main code here, to run repeatedly:
 
   int sensoriArvo = analogRead(aIn);
-  float temp = digitalRead(tempIn);
   taulukko[laskuri] = (double)sensoriArvo;
   laskuri++;
   float temperature = sensors.getTempCByIndex(0);
@@ -74,6 +72,8 @@ void loop() {
     kosteus = kost[3] - (kost[3] - kost[2]) * (arvo - ad[3]) / (ad[2] - ad[3]);
   }
   else kosteus = 100 - (100 - kost[3]) * (arvo - 0) / (ad[3] - 0);
+
+
 }
 
 
