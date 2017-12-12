@@ -1,0 +1,28 @@
+RPI MySql tunnus: root - root
+
+Database	weatherLog
+
+Juoksevat mittaustulokset
+
+CREATE TABLE dataLog (
+id INT PRIMARY KEY AUTO_INCREMENT,
+date DATETIME,
+temperature FLOAT, 
+humidity FLOAT ) Engine=InnoDB;
+
+Vuorokauden maksimi- ja minimiarvot
+
+CREATE TABLE historyLog (
+id INT PRIMARY KEY AUTO_INCREMENT,
+date DATETIME,				
+temperature_min FLOAT,
+temperature_max FLOAT,
+humidity_min FLOAT,
+humidity_max FLOAT ) Engine=InnoDB; 
+
+// Haku snipeti snäppejä varten
+SELECT date AS 'Päivämäärä', temperature_min AS 'Alin lämpötila', temperature_max AS 'Ylin lämpötila', humidity_min AS 'Alin kosteusprosentti', humidity_max AS 'Ylin kosteusprosentti' FROM historyLog;
+
+SELECT date AS 'Päivämäärä', temperature AS 'Lämpötila, C°', humidity AS 'Kosteusprosentti, %' FROM dataLog;
+
+INSERT INTO historyLog (id, date, temperature_min, temperature_max, humidity_min, humidity_max) VALUES(1, '2017-11-26', 19.88, 21.21, 20.01, 22.11);
