@@ -47,6 +47,11 @@ namespace EmbeddedSystemProject
             this.Size = new Size(1220, 700);
             this.StartPosition = FormStartPosition.CenterScreen;
 
+            // Estetään ikkunan koon muuttaminen
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;    
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+
             aGaugeHumid.MaximumSize = new Size(600, 600);
             aGaugeTemp.MaximumSize  = new Size(600, 600);
 
@@ -230,15 +235,6 @@ namespace EmbeddedSystemProject
         private void aGaugeTemp_SizeChanged(object sender, EventArgs e)
         {
             aGaugeTemp.Width = aGaugeTemp.Height;
-        }
-
-        private void tabControl1_Click(object sender, EventArgs e)
-        {
-            if (tabControl1.SelectedTab == tabPage1)
-                this.Size = new Size(1220, 700);
-
-            // Tänne voi tehdä halutessaan ominaisuuden, jotta ikkuna pienenee muissa näkymissä.
-            // Sitten täytyy ratkaista miksi humid-siltsu ei asetu aloilleen
         }
     }
 
