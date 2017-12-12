@@ -81,7 +81,7 @@
             this.labelHumidTxt.AutoSize = true;
             this.labelHumidTxt.BackColor = System.Drawing.Color.Transparent;
             this.labelHumidTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelHumidTxt.Location = new System.Drawing.Point(1080, 750);
+            this.labelHumidTxt.Location = new System.Drawing.Point(1120, 750);
             this.labelHumidTxt.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelHumidTxt.Name = "labelHumidTxt";
             this.labelHumidTxt.Size = new System.Drawing.Size(83, 20);
@@ -106,7 +106,7 @@
             this.labelHumidValue.AutoSize = true;
             this.labelHumidValue.BackColor = System.Drawing.Color.Transparent;
             this.labelHumidValue.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelHumidValue.Location = new System.Drawing.Point(1200, 750);
+            this.labelHumidValue.Location = new System.Drawing.Point(1215, 750);
             this.labelHumidValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelHumidValue.Name = "labelHumidValue";
             this.labelHumidValue.Size = new System.Drawing.Size(31, 25);
